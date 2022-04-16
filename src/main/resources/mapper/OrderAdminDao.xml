@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Lql.SRTP.dao.OrderAdiminDao">
+    <insert id="createoid" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO srtp_order
+        (order_time)
+        VALUES (#{ordertime}}
+    </insert>
+    <insert id="addorderitem">
+        INSERT INTO srtp_orderitem
+        (oid, pid, pname,pimage, pprice,pnum, ptotalprice)
+        VALUES (#{oid}, #{pid}, #{pname}, #{pimage}, #{pprice}, #{pnum}, #{ptotalprice})
+    </insert>
+    <select id="showorderitembyoid" resultType="com.Lql.SRTP.entity.srtporderitem">
+        SELECT * FROM srtp_orderitem
+        WHERE
+        oid=#{oid}
+    </select>
+    <insert id="addorder">
+        INSERT INTO srtp_order
+        (oid,order_time,order_sort, order_note)
+        VALUES (#{oid},#{ordertime}, #{ordersort}, #{ordernote})
+    </insert>
+</mapper>
