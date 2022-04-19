@@ -20,29 +20,29 @@ public class WarehouseLayoutController extends BaseController {
 
     @RequestMapping("getallproduct")
     //获得所有货物列表
-    public Jsonresult<List<srtpproduct>> getAllproduct() {
-        List<srtpproduct> data = WarehouseLayoutDao.getAllproduct();
-        return new Jsonresult<List<srtpproduct>>(OK, data);
+    public Jsonresult<List<Product>> getAllproduct() {
+        List<Product> data = WarehouseLayoutDao.getAllproduct();
+        return new Jsonresult<List<Product>>(OK, data);
     }
     @RequestMapping("showincludepidorder")
     //展示含有pid的所有订单
-    public Jsonresult<List<srtporderitem>> showincludepidorder(Integer pid) {
-        List<srtporderitem> data = WarehouseLayoutService.getorderitemByPid(pid);
-        return new Jsonresult<List<srtporderitem>>(OK, data);
+    public Jsonresult<List<Orderitem>> showincludepidorder(Integer pid) {
+        List<Orderitem> data = WarehouseLayoutService.getorderitemByPid(pid);
+        return new Jsonresult<List<Orderitem>>(OK, data);
     }
 
     @RequestMapping("showsimiliaritynumbypid")
     //展示两个pid的相似度关系
-    public Jsonresult<similarityentity> showsimiliaritynumbypid(Integer compare1, Integer compare2) {
-        similarityentity data = WarehouseLayoutService.getsimilaritynum(compare1, compare2);
-        return new Jsonresult<similarityentity>(OK, data);
+    public Jsonresult<Optimize_similiarity> showsimiliaritynumbypid(Integer compare1, Integer compare2) {
+        Optimize_similiarity data = WarehouseLayoutService.getsimilaritynum(compare1, compare2);
+        return new Jsonresult<Optimize_similiarity>(OK, data);
     }
 
     @RequestMapping("showAllsimiliaritynum")
     //展示所有货物的相似度关系
-    public Jsonresult<List<similarityentity>> showAllsimiliaritynum() {
-        List<similarityentity> data = WarehouseLayoutService.getallsimilaritynum();
-        return new Jsonresult<List<similarityentity>>(OK, data);
+    public Jsonresult<List<Optimize_similiarity>> showAllsimiliaritynum() {
+        List<Optimize_similiarity> data = WarehouseLayoutService.getallsimilaritynum();
+        return new Jsonresult<List<Optimize_similiarity>>(OK, data);
     }
 
     @RequestMapping("showshelvequalitydegree")
@@ -53,10 +53,8 @@ public class WarehouseLayoutController extends BaseController {
     }
     @RequestMapping("optimize")
     //模拟退火
-    public Jsonresult<List<optimizeresult>> optimize() {
-        List<optimizeresult> data=WarehouseLayoutService.optimizes();
-        return new Jsonresult<List<optimizeresult>>(OK, data);
+    public Jsonresult<List<Optimize_result>> optimize() {
+        List<Optimize_result> data=WarehouseLayoutService.optimizes();
+        return new Jsonresult<List<Optimize_result>>(OK, data);
     }
-
-
 }
