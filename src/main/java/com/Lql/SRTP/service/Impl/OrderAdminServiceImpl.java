@@ -1,7 +1,6 @@
 package com.Lql.SRTP.service.Impl;
 
 import com.Lql.SRTP.dao.OrderAdiminDao;
-import com.Lql.SRTP.dao.ScannerDao;
 import com.Lql.SRTP.entity.Order;
 import com.Lql.SRTP.entity.Orderitem;
 import com.Lql.SRTP.entity.Product;
@@ -33,11 +32,13 @@ public class OrderAdminServiceImpl implements IOrderAdminService {
         Product product = OrderAdiminDao.getproductByPid(pid);
         //订单商品重复添加
         //订单商品缺货或订购数太多
-        if(pnum>product.getNum())
-        { throw new ProductNumException("订购数大于库存，请重新输入订购数");}
+        if (pnum > product.getNum()) {
+            throw new ProductNumException("订购数大于库存，请重新输入订购数");
+        }
         //库存中无商品信息或扫码不正确
-        if(product.getId() == null)
-        { throw new PidNotFoundException("无商品信息");}
+        if (product.getId() == null) {
+            throw new PidNotFoundException("无商品信息");
+        }
         Orderitem item = new Orderitem();
         Long pprice = product.getPrice();
         Long ptotalprice = pprice * pnum;
@@ -62,6 +63,7 @@ public class OrderAdminServiceImpl implements IOrderAdminService {
         List<Orderitem> list = OrderAdiminDao.readorderitembyoid(oid);
         return list;
     }
+
     @Override
     //确认生成订单
     public void Addorder(Integer oid, String order_reviewer, String ordersort, String ordernote, Long order_price) {
@@ -76,5 +78,12 @@ public class OrderAdminServiceImpl implements IOrderAdminService {
         order.setOrder_note(ordernote);
         order.setOrder_price(order_price);
         OrderAdiminDao.addorder(order);
+    }
+
+    @Override
+    //根据pid获取商品信息
+    public Product GetproductByPid(Integer pid) {
+        Product product = OrderAdiminDao.getproductByPid(pid);
+        return product;
     }
 }
