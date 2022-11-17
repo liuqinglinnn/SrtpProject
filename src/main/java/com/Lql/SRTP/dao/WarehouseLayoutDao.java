@@ -1,13 +1,14 @@
 package com.Lql.SRTP.dao;
 
-
 import com.Lql.SRTP.entity.Optimize_product;
 import com.Lql.SRTP.entity.Orderitem;
 import com.Lql.SRTP.entity.Product;
 import com.Lql.SRTP.entity.Shelves;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+@Mapper
 public interface WarehouseLayoutDao {
     //根据货物id找到订单中订购的货物
     List<Orderitem> getorderitemByPid(Integer pid);

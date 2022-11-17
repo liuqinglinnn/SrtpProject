@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Lql.SRTP.dao.CreatedotdisDao">
+    <insert id="adddot" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO srtp_dot
+            (dot_id, dot_shelves, dot_x, dot_y)
+        VALUES (#{id}, #{shelves}, #{x}, #{y})
+    </insert>
+    <select id="getdot" resultType="com.Lql.SRTP.entity.Dot">
+        SELECT *
+        FROM srtp_dot
+        WHERE dot_x = #{x}
+          and dot_y = #{y}
+    </select>
+    <select id="getdis" resultType="com.Lql.SRTP.entity.Dot">
+        SELECT *
+        FROM srtp_dotdis
+        WHERE m1 = #{x1}
+          and n1 = #{y1}
+          and m2 = #{x2}
+          and n2 = #{y2}
+    </select>
+    <insert id="adddis">
+        INSERT INTO srtp_dotdis
+            (m1, n1, m2, n2, dis)
+        VALUES (#{m1}, #{n1}, #{m2}, #{n2}, #{dis})
+    </insert>
+    <select id="getdotlist" resultType="com.Lql.SRTP.entity.Dot">
+        SELECT *
+        FROM srtp_dot
+    </select>
+    <update id="changgedot">
+        update srtp_dot
+        <set>
+            <if test="x==#{x} and y==#{y}">
+                shelves=#{shelves}
+            </if>
+        </set>
+    </update>
+    <update id="changedotdis">
+        update srtp_dotdis
+        <set>
+            <if test="m1==#{m1} and m2==#{m2} and n1==#{n1} and n2=#{n2}">
+                dis=#{dis}
+            </if>
+        </set>
+    </update>
+</mapper>
