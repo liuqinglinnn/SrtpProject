@@ -8,21 +8,24 @@
     </insert>
     <insert id="addorderitem">
         INSERT INTO order_item
-        (oid, pid, pname,pimage, pprice,pnum, ptotalprice,pcreatetime,pmodifiedtime,pcreateruser,pmodifieduser)
+        (oid, pid, pname, pimage, pprice, pnum, ptotalprice, pcreatetime, pmodifiedtime, pcreateruser, pmodifieduser)
         VALUES (#{oid}, #{pid}, #{pname}, #{pimage}, #{pprice}, #{pnum}, #{ptotalprice}, #{pcreatetime},
-        #{pmodifiedtime},#{pcreateruser},#{pmodifieduser})
+                #{pmodifiedtime}, #{pcreateruser}, #{pmodifieduser})
     </insert>
     <select id="readorderitembyoid" resultType="com.Lql.SRTP.entity.Orderitem">
-        SELECT * FROM srtp_orderitem
-        WHERE
-        oid=#{oid}
+        SELECT *
+        FROM srtp_orderitem
+        WHERE oid = #{oid}
     </select>
     <insert id="addorder">
         INSERT INTO order
-        (oid,order_price,order_createtime,order_reviewer,order_sort, order_note)
-        VALUES (#{oid},#{order_price}, #{order_createtime}, #{order_reviewer},#{order_sort},#{order_note})
+        (oid, order_price, order_createtime, order_reviewer, order_sort, order_note)
+        VALUES (#{oid}, #{order_price}, #{order_createtime}, #{order_reviewer}, #{order_sort}, #{order_note})
     </insert>
     <select id="getproductByPid" resultType="com.Lql.SRTP.entity.Product">
-        SELECT * FROM product WHERE id = #{pid}
+        SELECT *
+        FROM product
+        WHERE id = #{pid}
     </select>
+
 </mapper>

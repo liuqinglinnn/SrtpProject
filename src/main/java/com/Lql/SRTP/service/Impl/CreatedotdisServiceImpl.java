@@ -9,6 +9,7 @@ import com.Lql.SRTP.entity.ShelvesDis;
 import com.Lql.SRTP.service.ICreatedotdisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -137,12 +138,41 @@ public class CreatedotdisServiceImpl implements ICreatedotdisService {
             }
         }
     }
+
     @Override
     public List<ShelvesDis> getShelvesdis() {
         //查找货架之间距离以及其他数据，存入距离表
-
+        List<Shelves> shelves = WarehouseLayoutMapper.getAllshelves();
+        List<ShelvesDis> shelvesDis = new ArrayList<>();
+        for (int i = 0; i < shelves.size(); i++) {
+            Integer x1 = shelves.get(i).getSx2();
+            Integer y1 = shelves.get(i).getSy2();
+            Integer x2;
+            Integer y2;
+            Integer s1 = shelves.get(i).getId();
+            Integer s2;
+            Integer g1 = shelves.get(i).getPid();
+            Integer g2;
+            Integer num1 = null;
+            Integer num2 = null;
+            Integer score1 = null;
+            Integer score2 = null;
+            Integer dis;
+            for (int j = i; j < shelves.size(); j++) {
+                x2 = shelves.get(j).getSx2();
+                y2 = shelves.get(j).getSy2();
+                s2 = shelves.get(j).getId();
+                g2 = shelves.get(j).getPid();
+                Dotdis temdis = new Dotdis(x1, y1, x2, y2, null);
+                Dotdis temdis2=CreatedotdisMapper.getdis(temdis);
+                dis = temdis2.getDis();
+                ShelvesDis tem = new ShelvesDis(x1, y1, x2, y2, s1, s2, g1, g2, num1, num2, score1, score2, dis);
+                CreatedotdisMapper.addshelves(tem);
+            }
+        }
         //根据货架获取货架对应距离接口
-return null;
+        shelvesDis=CreatedotdisMapper.getshelvesdis();
+        return shelvesDis;
     }
 
 }

@@ -14,7 +14,7 @@
         WHERE dot_x = #{x}
           and dot_y = #{y}
     </select>
-    <select id="getdis" resultType="com.Lql.SRTP.entity.Dot">
+    <select id="getdis" resultType="com.Lql.SRTP.entity.Dotdis">
         SELECT *
         FROM srtp_dotdis
         WHERE m1 = #{x1}
@@ -31,7 +31,7 @@
         SELECT *
         FROM srtp_dot
     </select>
-    <update id="changgedot">
+    <update id="changedot">
         update srtp_dot
         <set>
             <if test="x==#{x} and y==#{y}">
@@ -47,4 +47,14 @@
             </if>
         </set>
     </update>
+    <insert id="addshelves">
+        INSERT INTO order_item
+            (x1, y1, x2, y2, s1, s2, g1, g2, num1, num2, score1, score2)
+        VALUES (#{x1}, #{y1}, #{x2}, #{y2}, #{s1}, #{s2}, #{g1}, #{g2},
+                #{num1}, #{num2}, #{score1},#{score2})
+    </insert>
+    <select id="getshelvesdis" resultType="com.Lql.SRTP.entity.ShelvesDis">
+        SELECT *
+        FROM srtp_shelvesdis
+    </select>
 </mapper>

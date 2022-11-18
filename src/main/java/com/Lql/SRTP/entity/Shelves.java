@@ -9,6 +9,7 @@ public class Shelves {
     private Integer sy1;
     private Integer sy2;
     private Integer sv;
+    private Integer pid;
 
     @Override
     public String toString() {
@@ -19,6 +20,7 @@ public class Shelves {
                 ", sy1=" + sy1 +
                 ", sy2=" + sy2 +
                 ", sv=" + sv +
+                ", pid=" + pid +
                 '}';
     }
 
@@ -27,12 +29,12 @@ public class Shelves {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Shelves shelves = (Shelves) o;
-        return Objects.equals(id, shelves.id) && Objects.equals(sx1, shelves.sx1) && Objects.equals(sx2, shelves.sx2) && Objects.equals(sy1, shelves.sy1) && Objects.equals(sy2, shelves.sy2) && Objects.equals(sv, shelves.sv);
+        return Objects.equals(id, shelves.id) && Objects.equals(sx1, shelves.sx1) && Objects.equals(sx2, shelves.sx2) && Objects.equals(sy1, shelves.sy1) && Objects.equals(sy2, shelves.sy2) && Objects.equals(sv, shelves.sv) && Objects.equals(pid, shelves.pid);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, sx1, sx2, sy1, sy2, sv);
+        return Objects.hash(id, sx1, sx2, sy1, sy2, sv, pid);
     }
 
     public Integer getId() {
@@ -83,12 +85,21 @@ public class Shelves {
         this.sv = sv;
     }
 
-    public Shelves(Integer id, Integer sx1, Integer sx2, Integer sy1, Integer sy2, Integer sv) {
+    public Integer getPid() {
+        return pid;
+    }
+
+    public void setPid(Integer pid) {
+        this.pid = pid;
+    }
+
+    public Shelves(Integer id, Integer sx1, Integer sx2, Integer sy1, Integer sy2, Integer sv, Integer pid) {
         this.id = id;
         this.sx1 = sx1;
         this.sx2 = sx2;
         this.sy1 = sy1;
         this.sy2 = sy2;
         this.sv = sv;
+        this.pid = pid;
     }
 }

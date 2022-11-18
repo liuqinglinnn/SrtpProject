@@ -18,13 +18,4 @@
     <select id="getAllshelves" resultType="com.Lql.SRTP.entity.Shelves">
         SELECT * FROM shelves
     </select>
-    <resultMap id="productputshelvesentity" type="com.Lql.SRTP.entity.Optimize_product">
-        <id column="id" property="pid"/>
-        <result column="sid" property="sid"/>
-        <result column="x" property="x"/>
-        <result column="y" property="y"/>
-    </resultMap>
-    <select id="getPSrealtionship" resultMap="productputshelvesentity">
-        SELECT * FROM product
-    </select>
 </mapper>

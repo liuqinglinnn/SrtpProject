@@ -15,6 +15,7 @@ public class ShelvesDis {
     private Integer num2;
     private Integer score1;
     private Integer score2;
+    private Integer dis;
 
     @Override
     public String toString() {
@@ -31,6 +32,7 @@ public class ShelvesDis {
                 ", num2=" + num2 +
                 ", score1=" + score1 +
                 ", score2=" + score2 +
+                ", dis=" + dis +
                 '}';
     }
 
@@ -39,12 +41,12 @@ public class ShelvesDis {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ShelvesDis that = (ShelvesDis) o;
-        return Objects.equals(x1, that.x1) && Objects.equals(y1, that.y1) && Objects.equals(x2, that.x2) && Objects.equals(y2, that.y2) && Objects.equals(s1, that.s1) && Objects.equals(s2, that.s2) && Objects.equals(g1, that.g1) && Objects.equals(g2, that.g2) && Objects.equals(num1, that.num1) && Objects.equals(num2, that.num2) && Objects.equals(score1, that.score1) && Objects.equals(score2, that.score2);
+        return Objects.equals(x1, that.x1) && Objects.equals(y1, that.y1) && Objects.equals(x2, that.x2) && Objects.equals(y2, that.y2) && Objects.equals(s1, that.s1) && Objects.equals(s2, that.s2) && Objects.equals(g1, that.g1) && Objects.equals(g2, that.g2) && Objects.equals(num1, that.num1) && Objects.equals(num2, that.num2) && Objects.equals(score1, that.score1) && Objects.equals(score2, that.score2) && Objects.equals(dis, that.dis);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(x1, y1, x2, y2, s1, s2, g1, g2, num1, num2, score1, score2);
+        return Objects.hash(x1, y1, x2, y2, s1, s2, g1, g2, num1, num2, score1, score2, dis);
     }
 
     public Integer getX1() {
@@ -143,7 +145,15 @@ public class ShelvesDis {
         this.score2 = score2;
     }
 
-    public ShelvesDis(Integer x1, Integer y1, Integer x2, Integer y2, Integer s1, Integer s2, Integer g1, Integer g2, Integer num1, Integer num2, Integer score1, Integer score2) {
+    public Integer getDis() {
+        return dis;
+    }
+
+    public void setDis(Integer dis) {
+        this.dis = dis;
+    }
+
+    public ShelvesDis(Integer x1, Integer y1, Integer x2, Integer y2, Integer s1, Integer s2, Integer g1, Integer g2, Integer num1, Integer num2, Integer score1, Integer score2, Integer dis) {
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
@@ -156,5 +166,6 @@ public class ShelvesDis {
         this.num2 = num2;
         this.score1 = score1;
         this.score2 = score2;
+        this.dis = dis;
     }
 }
