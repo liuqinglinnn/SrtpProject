@@ -1,9 +1,6 @@
 package com.Lql.SRTP.dao;
 
-import com.Lql.SRTP.entity.Orderitem;
-import com.Lql.SRTP.entity.Product;
-import com.Lql.SRTP.entity.Shelves;
-import com.Lql.SRTP.entity.ShelvesDis;
+import com.Lql.SRTP.entity.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -31,7 +28,7 @@ public interface WarehouseLayoutDao {
     //修改产品的iton值
     Integer changeproduct(Double iton, Double itom, Integer pid);
 
-    //获取共同出现的item
+    //获取共同出现的pid
     List<Orderitem> gettogetheritem(Integer one, Integer two);
 
     //修改货架关系表
@@ -39,4 +36,9 @@ public interface WarehouseLayoutDao {
 
     //获取货架关系表
     ShelvesDis getshelvesdis(Integer sid1, Integer sid2);
+    //获取仓库基本信息
+    Housebase gethousebase(Integer id);
+    //修改仓库基本信息
+
+
 }

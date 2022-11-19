@@ -1,8 +1,9 @@
 package com.Lql.SRTP.entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class ShelvesDis {
+public class ShelvesDis implements Serializable {
     private Integer  x1;
     private Integer y1;
     private Integer  x2;

@@ -1,8 +1,9 @@
 package com.Lql.SRTP.entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Dotdis {
+public class Dotdis implements Serializable {
     private Integer m1;
     private Integer n1;
     private Integer m2;

@@ -3,7 +3,10 @@ package com.Lql.SRTP.dao;
 import com.Lql.SRTP.entity.Dot;
 import com.Lql.SRTP.entity.Dotdis;
 import com.Lql.SRTP.entity.ShelvesDis;
+import lombok.Setter;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
 import java.util.List;
 
 @Mapper

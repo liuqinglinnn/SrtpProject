@@ -1,6 +1,7 @@
 package com.Lql.SRTP.entity;
+import java.io.Serializable;
 import java.util.Objects;
-public class Dot {
+public class Dot implements Serializable {
     private Integer id;
     private Integer shelves;//>0为货架id,0为主干道,-1为障碍物
     private Integer x;

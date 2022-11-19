@@ -1,10 +1,8 @@
 package com.Lql.SRTP.service.Impl;
 
+import com.Lql.SRTP.dao.CreatedotdisDao;
 import com.Lql.SRTP.dao.WarehouseLayoutDao;
-import com.Lql.SRTP.entity.Orderitem;
-import com.Lql.SRTP.entity.Product;
-import com.Lql.SRTP.entity.Shelves;
-import com.Lql.SRTP.entity.ShelvesDis;
+import com.Lql.SRTP.entity.*;
 import com.Lql.SRTP.service.IWarehouseLayoutService;
 import com.Lql.SRTP.service.ex.BetterResultNotFoundException;
 import com.Lql.SRTP.service.ex.OidNotFoundException;
@@ -19,6 +17,8 @@ import java.util.Random;
 public class WarehouseLayoutServiceImpl implements IWarehouseLayoutService {
     @Autowired
     private WarehouseLayoutDao WarehouseLayoutMapper;
+    @Autowired
+    private CreatedotdisDao CreatedotdisMapper;
 
     @Override
     public List<Orderitem> getorderitemByPid(Integer pid) {
@@ -52,6 +52,7 @@ public class WarehouseLayoutServiceImpl implements IWarehouseLayoutService {
         //存入数据库
         Double itom = iton * WarehouseLayoutMapper.getproductByPid(pid).getPrice();
         WarehouseLayoutMapper.changeproduct(iton, itom, pid);
+        Housebase housebase = WarehouseLayoutMapper.gethousebase(1);
     }
 
     //两个货物的相关性，输入两者货物id，获取订单中的数量，计算相关性，存入数据库，返回结果
@@ -70,108 +71,128 @@ public class WarehouseLayoutServiceImpl implements IWarehouseLayoutService {
         ShelvesDis simresult = WarehouseLayoutMapper.getshelvesdis(compare1, compare2);
         return simresult;
     }
+
     //计算货架的好坏程度
     @Override
     public Double getshelvescroe(Integer sid) {
+        Shelves shelve = WarehouseLayoutMapper.getshelvesBysid(sid);
+
         //无货物为-100
-        //x的出入库距离之和
-        //分出商品的abc种类
-        //存入数据表，货架的value值，如果货架没货物就value=-100；货架评分为负，障碍物
+        if (shelve.getPid() == null) {
+            return -100.0;
+        }
         //计算scoresum,存入数据库，作为返回结果
-        //计算距离
-return null;
+        else {
+            Product product = WarehouseLayoutMapper.getproductByPid(shelve.getPid());
+            List<Product> productlist = WarehouseLayoutMapper.getAllproduct();
+            Housebase house = WarehouseLayoutMapper.gethousebase(1);
+            double score, score1 = 0.0, score2 = 0.0;
+            double k1 = 1.0, k2 = 1.0, k3 = 1.0, k4 = 1.0, k5 = 1.0, c1 = 1.0, c2 = 1.0;
+            Integer chux = 0, chuy = 0, rux = 100, ruy = 100;
+            for (int i = 0; i < productlist.size(); i++) {
+                ShelvesDis tem = getsimilaritynum(product.getId(), productlist.get(i).getId());
+                score1 += k1 * tem.getNum1() / (k2 * tem.getDis() + c1);
+            }
+            Dotdis temdis1 = new Dotdis(chux, chuy, shelve.getSx2(), shelve.getSy2(), null);
+            Dotdis temdis2 = new Dotdis(rux, ruy, shelve.getSx2(), shelve.getSy2(), null);
+            Integer dischurusum = CreatedotdisMapper.getdis(temdis1).getDis() + CreatedotdisMapper.getdis(temdis2).getDis();
+            score2 = score2 + k3 * product.getIton() / house.getIton() + k4 * product.getItom() / house.getItom();
+            score2 = score2 / (k5 * dischurusum + c2);
+            score = score1 + score2;
+            return score;
+        }
+    }
+
+    @Override
+    //总好坏程度
+    public Double scoresum() {
+        Double scoresum = 0.0;
+        List<Product> allproduct = WarehouseLayoutMapper.getAllproduct();
+        for (int i = 0; i < allproduct.size(); i++) {
+            scoresum += getshelvescroe(allproduct.get(i).getSid());
+        }
+        return scoresum;
     }
 
     //计算模拟退火时的好坏程度
     @Override
-    public Double getoptimizequalitydegree(List<Optimize_product> Newlist) {
-        double qualitydegree = 0.0;
-        double valuesum = 0.0;
-        double numi = 0.0;
-        double vi = 0.0;
-        double similitysum = 0.0;
-        //计算退火算法中物品两两之间的相似度
-        List<Optimize_similiarity> similaritylist = new ArrayList<Optimize_similiarity>();
-        for (int j = 0; j < Newlist.size(); j++) {
-            for (int k = j + 1; k < Newlist.size(); k++) {
-                Optimize_similiarity f = getsimilaritynum(Newlist.get(j).getPid(), Newlist.get(k).getPid());
-                //计算好坏程度
-                double c = 0.03;//常数c防爆
-                double s = f.getSimnum();//相似度s
-                double sume = f.getSume();//jk的和
-                double xj = (double) Newlist.get(j).getX();
-                double xk = (double) Newlist.get(k).getX();
-                double yj = (double) Newlist.get(j).getY();
-                double yk = (double) Newlist.get(k).getY();
-                double dis = Math.sqrt(Math.pow(xj - xk, 2) + Math.pow(yj - yk, 2));//二者在仓库的距离
-                double degree = sume / ((s + c) * dis);
-                f.setSimnum(degree);
-                similaritylist.add(f);
+    public Double getoptimizequalitydegree(List<Shelves> newshelveslist) {
+        Double scoresum = 0.0;
+        List<Product> productlistfirst = WarehouseLayoutMapper.getAllproduct();
+        Housebase house=WarehouseLayoutMapper.gethousebase(1);
+        //循环所有x
+        for (int i = 0; i < productlistfirst.size(); i++) {
+            Integer sidi = newshelveslist.get(i).getId();
+            Double score = 0.0;
+            Double score1 = 0.0;
+            Double score2 = 0.0;
+            //无货物为-100
+            if (sidi == null) {
+                score = -100.0;
             }
-        }
-        //计算相似度的和
-        for (int j = 0; j < similaritylist.size(); j++) {
-            similitysum += similaritylist.get(j).getSimnum();
-        }
-        //计算货架价值的和
-        for (int i = 0; i < Newlist.size(); i++) {
-            numi = 0.0;
-            //根据货物id求出订单中货物的总和
-            int idx = Newlist.get(i).getPid();//货物id
-            int sid = Newlist.get(i).getSid();//货架id
-            List<Orderitem> productxlist = getorderitemByPid(idx);
-            for (int k = 0; k < productxlist.size(); k++) {
-                numi += productxlist.get(k).getPnum();
+            else
+            {   //获取对每个y的score1
+                double k1 = 1.0, k2 = 1.0, k3 = 1.0, k4 = 1.0, k5 = 1.0, c1 = 1.0, c2 = 1.0;
+                Integer chux = 0, chuy = 0, rux = 100, ruy = 100;
+                Product productnow=WarehouseLayoutMapper.getproductByPid(newshelveslist.get(i).getPid());
+//                for (int j = 0; j < newshelveslist.size(); j++) {
+//                    Integer sidj = newshelveslist.get(j).getId();
+//                        Product product = WarehouseLayoutMapper.getproductByPid();
+//                        List<Product> productlist = WarehouseLayoutMapper.getAllproduct();
+//                        Housebase house = WarehouseLayoutMapper.gethousebase(1);
+//                        for (int k = 0; k < productlist.size(); k++) {
+//                            ShelvesDis tem = getsimilaritynum(product.getId(), productlist.get(k).getId());
+//                            score1 += k1 * tem.getNum1() / (k2 * tem.getDis() + c1);
+//                        }
+//                        Dotdis temdis1 = new Dotdis(chux, chuy, shelve.getSx2(), shelve.getSy2(), null);
+//                        Dotdis temdis2 = new Dotdis(rux, ruy, shelve.getSx2(), shelve.getSy2(), null); }
+                //获取score2
+                       Integer dischurusum = CreatedotdisMapper.getdis(temdis1).getDis() + CreatedotdisMapper.getdis(temdis2).getDis();
+                score2 = score2 + k3 * productnow.getIton() / house.getIton() + k4 * productnow.getItom() / house.getItom();
+                score2 = score2 / (k5 * dischurusum + c2);
+                score = score1 + score2;
             }
-            //根据货架id求出当前货架总价值
-            Shelves srtpshelvex = WarehouseLayoutMapper.getshelvesBysid(sid);
-            vi = srtpshelvex.getSv();
-            valuesum += vi * numi;
+            scoresum += score;
         }
-        //总好坏程度
-        qualitydegree = similitysum + valuesum / 10;
-        return qualitydegree;
+        return scoresum;
     }
-
 
     //模拟退火算法
     @Override
-    public List<Optimize_product> optimize() {
-        double T = 500;//初始温度（半径）
+    public List<Shelves> optimize() {
+        double T = 100;//初始温度（半径）
         double del = 0.99;//退火速率
         double lim = 1;//最低限度
         int j, k, l, m;
         double i;
         //原来数据
-        List<Optimize_product> PSlist = WarehouseLayoutMapper.getPSrealtionship();
-        double PSdegree = getshelvequalitydegree();
+        List<Shelves> PSlist = WarehouseLayoutMapper.getAllshelves();
+        double PSdegree = scoresum();
         //退火数据
-        List<Optimize_product> Newlist = WarehouseLayoutMapper.getPSrealtionship();
+        List<Shelves> Newlist = WarehouseLayoutMapper.getAllshelves();
         double Newlistdegree;
         //暂时更优解数据
-        List<Optimize_product> Bestlist = WarehouseLayoutMapper.getPSrealtionship();
-        double Bestdegree = getshelvequalitydegree();
+        List<Shelves> Bestlist = WarehouseLayoutMapper.getAllshelves();
+        double Bestdegree = scoresum();
         //开始退火
         for (i = T; i >= lim; i = del * i) {
             //每次退火更换所有货架的商品顺序
             for (j = 0; j < Newlist.size(); j++) {
                 //圆心物品
-                int jx = Newlist.get(j).getX();
-                int jy = Newlist.get(j).getY();
+                int jx = Newlist.get(j).getSx2();
+                int jy = Newlist.get(j).getSy2();
                 //符合半径范围的物品
-                List<Optimize_product> temlist = new ArrayList<Optimize_product>();
+                List<Shelves> temlist = new ArrayList<Shelves>();
                 for (k = 0; k < Newlist.size(); k++) {
                     //符合条件的列表
-                    int kx = Newlist.get(k).getX();
-                    int ky = Newlist.get(k).getY();
-                    double dis = dis(jx, jy, kx, ky);
+                    Integer dis = WarehouseLayoutMapper.getshelvesdis(Newlist.get(j).getId(), Newlist.get(k).getId()).getDis();
                     if (dis < i) {
                         temlist.add(Newlist.get(k));
                     }
                 }
                 //获取一个随机列表
                 Random rand = new Random();
-                Optimize_product ranentity = temlist.get(rand.nextInt(temlist.size()));
+                Shelves ranentity = temlist.get(rand.nextInt(temlist.size()));
                 //交换位置
                 for (l = 0; l < Newlist.size(); l++) {
                     //Newlist(l)是随机类Newlist(j)是圆心类
@@ -197,36 +218,5 @@ return null;
             throw new BetterResultNotFoundException("未找到更优解请再试一次");
         }
         return Bestlist;
-    }
-
-    @Override
-    public List<Optimize_result> optimizes() {
-        //模拟退火结果
-        List<Optimize_product> list = optimize();
-        //模拟退火结果换成产品列表
-        List<Optimize_result> reslist = new ArrayList<>();
-        int i;
-        for (i = 0; i < list.size(); i++) {
-            Product product = WarehouseLayoutMapper.getproductByPid(list.get(i).getPid());
-            product.setX(Long.valueOf(list.get(i).getX()));
-            product.setY(Long.valueOf(list.get(i).getY()));
-            product.setSid(list.get(i).getSid());
-            Optimize_result Optimize_result = new Optimize_result();
-            Optimize_result.setId(product.getId());
-            Optimize_result.setTitle(product.getTitle());
-            Optimize_result.setCompany(product.getCompany());
-            Optimize_result.setPrice(product.getPrice());
-            Optimize_result.setNum(product.getNum());
-            Optimize_result.setImage(product.getImage());
-            Optimize_result.setStatus(product.getStatus());
-            Optimize_result.setPriority(product.getPriority());
-            Optimize_result.setX(product.getX());
-            Optimize_result.setY(product.getY());
-            Optimize_result.setSid(product.getSid());
-            reslist.add(Optimize_result);
-        }
-        Double score = getoptimizequalitydegree(list);
-        reslist.get(0).setScore(score);
-        return reslist;
     }
 }

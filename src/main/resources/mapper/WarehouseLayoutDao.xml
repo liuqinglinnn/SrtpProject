@@ -65,4 +65,11 @@
         WHERE s1 = #{sid1}
           and s2 = #{sid2}
     </select>
+    <select id="gethousebase" resultType="com.Lql.SRTP.entity.Housebase">
+        SELECT *
+        FROM srtp_housebase
+        WHERE id = #{id}
+    </select>
+
+
 </mapper>
