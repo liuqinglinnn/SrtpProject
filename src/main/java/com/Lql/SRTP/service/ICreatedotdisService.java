@@ -1,8 +1,6 @@
 package com.Lql.SRTP.service;
 
 import com.Lql.SRTP.entity.Dot;
-import com.Lql.SRTP.entity.Dotdis;
-import com.Lql.SRTP.entity.Shelves;
 import com.Lql.SRTP.entity.ShelvesDis;
 
 import java.util.List;

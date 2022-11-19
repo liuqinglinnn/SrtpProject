@@ -8,7 +8,7 @@ public class Shelves {
     private Integer sx2;
     private Integer sy1;
     private Integer sy2;
-    private Integer sv;
+    private Double sv;
     private Integer pid;
 
     @Override
@@ -77,11 +77,11 @@ public class Shelves {
         this.sy2 = sy2;
     }
 
-    public Integer getSv() {
+    public Double getSv() {
         return sv;
     }
 
-    public void setSv(Integer sv) {
+    public void setSv(Double sv) {
         this.sv = sv;
     }
 
@@ -93,7 +93,7 @@ public class Shelves {
         this.pid = pid;
     }
 
-    public Shelves(Integer id, Integer sx1, Integer sx2, Integer sy1, Integer sy2, Integer sv, Integer pid) {
+    public Shelves(Integer id, Integer sx1, Integer sx2, Integer sy1, Integer sy2, Double sv, Integer pid) {
         this.id = id;
         this.sx1 = sx1;
         this.sx2 = sx2;

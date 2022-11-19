@@ -11,10 +11,10 @@ public class ShelvesDis {
     private Integer s2;
     private Integer g1;
     private Integer g2;
-    private Integer num1;
-    private Integer num2;
-    private Integer score1;
-    private Integer score2;
+    private Double num1;
+    private Double num2;
+    private Double score1;
+    private Double score2;
     private Integer dis;
 
     @Override
@@ -113,35 +113,35 @@ public class ShelvesDis {
         this.g2 = g2;
     }
 
-    public Integer getNum1() {
+    public Double getNum1() {
         return num1;
     }
 
-    public void setNum1(Integer num1) {
+    public void setNum1(Double num1) {
         this.num1 = num1;
     }
 
-    public Integer getNum2() {
+    public Double getNum2() {
         return num2;
     }
 
-    public void setNum2(Integer num2) {
+    public void setNum2(Double num2) {
         this.num2 = num2;
     }
 
-    public Integer getScore1() {
+    public Double getScore1() {
         return score1;
     }
 
-    public void setScore1(Integer score1) {
+    public void setScore1(Double score1) {
         this.score1 = score1;
     }
 
-    public Integer getScore2() {
+    public Double getScore2() {
         return score2;
     }
 
-    public void setScore2(Integer score2) {
+    public void setScore2(Double score2) {
         this.score2 = score2;
     }
 
@@ -153,7 +153,7 @@ public class ShelvesDis {
         this.dis = dis;
     }
 
-    public ShelvesDis(Integer x1, Integer y1, Integer x2, Integer y2, Integer s1, Integer s2, Integer g1, Integer g2, Integer num1, Integer num2, Integer score1, Integer score2, Integer dis) {
+    public ShelvesDis(Integer x1, Integer y1, Integer x2, Integer y2, Integer s1, Integer s2, Integer g1, Integer g2, Double num1, Double num2, Double score1, Double score2, Integer dis) {
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;

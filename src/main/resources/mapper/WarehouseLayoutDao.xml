@@ -4,18 +4,65 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.Lql.SRTP.dao.WarehouseLayoutDao">
     <select id="getorderitemByPid" resultType="com.Lql.SRTP.entity.Orderitem">
-        SELECT * FROM order_item WHERE pid = #{pid}
+        SELECT *
+        FROM order_item
+        WHERE pid = #{pid}
     </select>
     <select id="getproductByPid" resultType="com.Lql.SRTP.entity.Product">
-        SELECT * FROM product WHERE id = #{pid}
+        SELECT *
+        FROM product
+        WHERE id = #{pid}
     </select>
     <select id="getAllproduct" resultType="com.Lql.SRTP.entity.Product">
-        SELECT * FROM product
+        SELECT *
+        FROM product
     </select>
     <select id="getshelvesBysid" resultType="com.Lql.SRTP.entity.Shelves">
-        SELECT * FROM shelves WHERE sid = #{sid}
+        SELECT *
+        FROM shelves
+        WHERE sid = #{sid}
     </select>
     <select id="getAllshelves" resultType="com.Lql.SRTP.entity.Shelves">
-        SELECT * FROM shelves
+        SELECT *
+        FROM shelves
+    </select>
+    <select id="gettimerest" resultType="com.Lql.SRTP.entity.Orderitem">
+        SELECT *
+        FROM srtp_orderitem
+        where pmodifiedtime like #{time}
+        order by pmodifiedtime desc limit 1
+    </select>
+    <update id="changeproduct">
+        update srtp_product
+        <set>
+            <if test="id==#{pid}">
+                iton=#{iton}
+                itom=#{itom}
+            </if>
+        </set>
+    </update>
+    <select id="gettogetheritem" resultType="com.Lql.SRTP.entity.Orderitem">
+        SELECT *
+        FROM srtp_orderitem
+        WHERE oid IN (SELECT oid FROM srtp_orderitem WHERE pid = #{one})
+          and pid = #{two}
+        ORDER BY oid Desc
+    </select>
+    <update id="updatashelvesdis">
+        update srtp_shelvesdis
+        <set>
+            <if test="g1==#{pid1} and g2==#{pid2}">
+                num1=#{num}
+            </if>
+            <if test="g2==#{pid1} and g1==#{pid2}">
+                num1=#{num}
+            </if>
+        </set>
+    </update>
+    <select id="getshelvesdis" resultType="com.Lql.SRTP.entity.ShelvesDis">
+        SELECT *
+        FROM srtp_shelvesdis
+        WHERE s1 = #{sid1}
+          and s2 = #{sid2}
     </select>
 </mapper>

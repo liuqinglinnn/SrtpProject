@@ -3,6 +3,7 @@ package com.Lql.SRTP.dao;
 import com.Lql.SRTP.entity.Orderitem;
 import com.Lql.SRTP.entity.Product;
 import com.Lql.SRTP.entity.Shelves;
+import com.Lql.SRTP.entity.ShelvesDis;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -23,12 +24,19 @@ public interface WarehouseLayoutDao {
 
     //获得所有货架列表
     List<Shelves> getAllshelves();
-    //计算x的周转量，周转率，
-    //x的出入库距离之和
-    //分出商品的abc种类
-    //计算x的相关性之和，x和y的共线频次以及xy的距离
-    //计算score x=num1+num2；
-    //存入数据表，货架的value值，如果货架没货物就value=-100；货架评分为负，障碍物
-    //计算scoresum,存入数据库，作为返回结果
 
+    //获取月末x的库存
+    Orderitem gettimerest(String time, Integer pid);
+
+    //修改产品的iton值
+    Integer changeproduct(Double iton, Double itom, Integer pid);
+
+    //获取共同出现的item
+    List<Orderitem> gettogetheritem(Integer one, Integer two);
+
+    //修改货架关系表
+    Integer updatashelvesdis(Integer pid1, Integer pid2, Double num);
+
+    //获取货架关系表
+    ShelvesDis getshelvesdis(Integer sid1, Integer sid2);
 }

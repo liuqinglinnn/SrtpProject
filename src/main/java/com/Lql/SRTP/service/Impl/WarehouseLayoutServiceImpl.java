@@ -1,7 +1,10 @@
 package com.Lql.SRTP.service.Impl;
 
 import com.Lql.SRTP.dao.WarehouseLayoutDao;
-import com.Lql.SRTP.entity.*;
+import com.Lql.SRTP.entity.Orderitem;
+import com.Lql.SRTP.entity.Product;
+import com.Lql.SRTP.entity.Shelves;
+import com.Lql.SRTP.entity.ShelvesDis;
 import com.Lql.SRTP.service.IWarehouseLayoutService;
 import com.Lql.SRTP.service.ex.BetterResultNotFoundException;
 import com.Lql.SRTP.service.ex.OidNotFoundException;
@@ -17,111 +20,66 @@ public class WarehouseLayoutServiceImpl implements IWarehouseLayoutService {
     @Autowired
     private WarehouseLayoutDao WarehouseLayoutMapper;
 
-    //无香烟数据的异常
     @Override
     public List<Orderitem> getorderitemByPid(Integer pid) {
         List<Orderitem> list = WarehouseLayoutMapper.getorderitemByPid(pid);
+        //无香烟数据的异常
         if (list == null) {
             throw new OidNotFoundException("香烟数据不存在");
         }
         return list;
     }
 
-    //比较两个货物的相似度，输入两者货物id，获取订单中的数量，计算相关性，返回结果
+    //计算x的周转量，周转率,存入数据库
     @Override
-    public Optimize_similiarity getsimilaritynum(Integer compare1, Integer compare2) {
-        List<Orderitem> compare1list = getorderitemByPid(compare1);
-        List<Orderitem> compare2list = getorderitemByPid(compare2);
-        double ai, e, sume = 0.0, min, max, sum = 0.0;
-        //sum为分子的和，sume为分母的和，maxmin为两者中的较大较小值，e为单个订单中二者的和，ai为比值
-        for (int i = 0; i < compare1list.size(); i++) {
-            Orderitem com1 = compare1list.get(i);
-            Orderitem com2 = compare2list.get(i);
-            max = com1.getPnum() >= com2.getPnum() ? com1.getPnum() : com2.getPnum();
-            min = com1.getPnum() >= com2.getPnum() ? com2.getPnum() : com1.getPnum();
-            if (max == 0 || min == 0) {
-                ai = 0.0;
-            } else {
-                ai = min / max;
+    public void computito(Integer pid, String starttime, String endtime) {
+        List<Orderitem> orderlist = getorderitemByPid(pid);
+        //获取一个季度初末库存
+        Orderitem startitem = WarehouseLayoutMapper.gettimerest(starttime, pid);
+        Orderitem enditem = WarehouseLayoutMapper.gettimerest(endtime, pid);
+        Integer startnum = startitem.getPrest();
+        Integer endnum = enditem.getPrest();
+        Double avenum = (double) (startnum + endnum) / 2;
+        //获取一个季度的出库量
+        Integer outnum = 0;
+        for (int i = 0; i < orderlist.size(); i++) {
+            if (orderlist.get(i).getPstate() == 1) {
+                outnum += orderlist.get(i).getPnum();
             }
-            e = com1.getPnum() + com2.getPnum();
-            sum = sum + e * Math.pow(ai - 1, 2);
-            sume = sume + e;
         }
-        double simnum = sum / sume;
-        Optimize_similiarity simresult = new Optimize_similiarity();
-        simresult.setCompare1(compare1);
-        simresult.setCompare2(compare2);
-        simresult.setSimnum(simnum);
-        simresult.setSume(sume);
+        //计算ito
+        Double iton = outnum / avenum;
+        //存入数据库
+        Double itom = iton * WarehouseLayoutMapper.getproductByPid(pid).getPrice();
+        WarehouseLayoutMapper.changeproduct(iton, itom, pid);
+    }
+
+    //两个货物的相关性，输入两者货物id，获取订单中的数量，计算相关性，存入数据库，返回结果
+    @Override
+    public ShelvesDis getsimilaritynum(Integer compare1, Integer compare2) {
+        //获取共同出现的itemlist
+        List<Orderitem> itemlist = WarehouseLayoutMapper.gettogetheritem(compare1, compare2);
+        Double num = 0.0;
+        Double k = 1.0;//系数
+        for (int i = 0; i < itemlist.size(); i = i + 2) {
+            Integer xy = itemlist.get(i).getPnum() * itemlist.get(i + 1).getPnum();
+            num = num + Math.sqrt(1 + k * xy);
+        }
+
+        WarehouseLayoutMapper.updatashelvesdis(compare1, compare2, num);
+        ShelvesDis simresult = WarehouseLayoutMapper.getshelvesdis(compare1, compare2);
         return simresult;
     }
-
-    //获得所有货物两两之间的相似度
+    //计算货架的好坏程度
     @Override
-    public List<Optimize_similiarity> getallsimilaritynum() {
-        List<Optimize_similiarity> resultlist = new ArrayList<Optimize_similiarity>();
-        List<Product> pidlist = WarehouseLayoutMapper.getAllproduct();
-        for (int j = 0; j < pidlist.size(); j++) {
-            for (int k = j + 1; k < pidlist.size(); k++) {
-                Optimize_similiarity f = getsimilaritynum(pidlist.get(j).getId(), pidlist.get(k).getId());
-                //计算好坏程度
-                double c = 0.03;//常数c防爆
-                double s = f.getSimnum();//相似度s
-                double sume = f.getSume();//jk的和
-                double xj = (double) pidlist.get(j).getX();
-                double xk = (double) pidlist.get(k).getX();
-                double yj = (double) pidlist.get(j).getY();
-                double yk = (double) pidlist.get(k).getY();
-                double dis = Math.sqrt(Math.pow(xj - xk, 2) + Math.pow(yj - yk, 2));//二者在仓库的距离
-                double degree = sume / ((s + c) * dis);
-                f.setSimnum(degree);
-                resultlist.add(f);
-            }
-        }
-        return resultlist;
-    }
-
-    //计算货架的总好坏程度
-    @Override
-    public Double getshelvequalitydegree() {
-        double qualitydegree = 0.0;
-        double valuesum = 0.0;
-        double numi = 0.0;
-        double vi = 0.0;
-        double similitysum = 0.0;
-        List<Product> productlist = WarehouseLayoutMapper.getAllproduct();
-        List<Optimize_similiarity> similaritylist = getallsimilaritynum();
-        //计算相似度的和
-        for (int j = 0; j < similaritylist.size(); j++) {
-            similitysum += similaritylist.get(j).getSimnum();
-        }
-        //计算货架价值的和
-        for (int i = 0; i < productlist.size(); i++) {
-            numi = 0.0;
-            //根据货物id求出订单中货物的总和
-            int idx = productlist.get(i).getId();//货物id
-            int sid = productlist.get(i).getSid();//货架id
-            List<Orderitem> productxlist = getorderitemByPid(idx);
-            for (int k = 0; k < productxlist.size(); k++) {
-                numi += productxlist.get(k).getPnum();
-            }
-            //根据货架id求出当前货架总价值
-            Shelves srtpshelvex = WarehouseLayoutMapper.getshelvesBysid(sid);
-            vi = srtpshelvex.getSv();
-            valuesum += vi * numi;
-        }
-        //总好坏程度
-        qualitydegree = similitysum + valuesum / 10;
-
-        return qualitydegree;
-    }
-
-    //计算距离
-    @Override
-    public Double dis(Integer x1, Integer y1, Integer x2, Integer y2) {
-        double dis = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));//二者在仓库的距离
-        return dis;
+    public Double getshelvescroe(Integer sid) {
+        //无货物为-100
+        //x的出入库距离之和
+        //分出商品的abc种类
+        //存入数据表，货架的value值，如果货架没货物就value=-100；货架评分为负，障碍物
+        //计算scoresum,存入数据库，作为返回结果
+        //计算距离
+return null;
     }
 
     //计算模拟退火时的好坏程度

@@ -51,7 +51,7 @@
         INSERT INTO order_item
             (x1, y1, x2, y2, s1, s2, g1, g2, num1, num2, score1, score2)
         VALUES (#{x1}, #{y1}, #{x2}, #{y2}, #{s1}, #{s2}, #{g1}, #{g2},
-                #{num1}, #{num2}, #{score1},#{score2})
+                #{num1}, #{num2}, #{score1}, #{score2})
     </insert>
     <select id="getshelvesdis" resultType="com.Lql.SRTP.entity.ShelvesDis">
         SELECT *

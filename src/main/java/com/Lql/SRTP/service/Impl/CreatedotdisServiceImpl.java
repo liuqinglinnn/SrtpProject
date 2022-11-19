@@ -153,10 +153,10 @@ public class CreatedotdisServiceImpl implements ICreatedotdisService {
             Integer s2;
             Integer g1 = shelves.get(i).getPid();
             Integer g2;
-            Integer num1 = null;
-            Integer num2 = null;
-            Integer score1 = null;
-            Integer score2 = null;
+            Double num1 = null;
+            Double num2 = null;
+            Double score1 = null;
+            Double score2 = null;
             Integer dis;
             for (int j = i; j < shelves.size(); j++) {
                 x2 = shelves.get(j).getSx2();
@@ -164,14 +164,14 @@ public class CreatedotdisServiceImpl implements ICreatedotdisService {
                 s2 = shelves.get(j).getId();
                 g2 = shelves.get(j).getPid();
                 Dotdis temdis = new Dotdis(x1, y1, x2, y2, null);
-                Dotdis temdis2=CreatedotdisMapper.getdis(temdis);
+                Dotdis temdis2 = CreatedotdisMapper.getdis(temdis);
                 dis = temdis2.getDis();
                 ShelvesDis tem = new ShelvesDis(x1, y1, x2, y2, s1, s2, g1, g2, num1, num2, score1, score2, dis);
                 CreatedotdisMapper.addshelves(tem);
             }
         }
         //根据货架获取货架对应距离接口
-        shelvesDis=CreatedotdisMapper.getshelvesdis();
+        shelvesDis = CreatedotdisMapper.getshelvesdis();
         return shelvesDis;
     }
 
