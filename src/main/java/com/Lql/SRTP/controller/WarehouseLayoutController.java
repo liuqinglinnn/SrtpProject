@@ -33,28 +33,21 @@ public class WarehouseLayoutController extends BaseController {
 
     @RequestMapping("showsimiliaritynumbypid")
     //展示两个pid的相似度关系
-    public Jsonresult<Optimize_similiarity> showsimiliaritynumbypid(Integer compare1, Integer compare2) {
-        Optimize_similiarity data = WarehouseLayoutService.getsimilaritynum(compare1, compare2);
-        return new Jsonresult<Optimize_similiarity>(OK, data);
-    }
-
-    @RequestMapping("showAllsimiliaritynum")
-    //展示所有货物的相似度关系
-    public Jsonresult<List<Optimize_similiarity>> showAllsimiliaritynum() {
-        List<Optimize_similiarity> data = WarehouseLayoutService.getallsimilaritynum();
-        return new Jsonresult<List<Optimize_similiarity>>(OK, data);
+    public Jsonresult<ShelvesDis> getsimilaritynum(Integer compare1, Integer compare2) {
+        ShelvesDis data = WarehouseLayoutService.getsimilaritynum(compare1, compare2);
+        return new Jsonresult<ShelvesDis>(OK, data);
     }
 
     @RequestMapping("showshelvequalitydegree")
     //展示货架的总好坏程度
     public Jsonresult<Double> showshelvequalitydegree() {
-        Double data = WarehouseLayoutService.getshelvequalitydegree();
+        Double data = WarehouseLayoutService.scoresum();
         return new Jsonresult<Double>(OK, data);
     }
     @RequestMapping("optimize")
     //模拟退火
-    public Jsonresult<List<Optimize_result>> optimize() {
-        List<Optimize_result> data=WarehouseLayoutService.optimizes();
-        return new Jsonresult<List<Optimize_result>>(OK, data);
+    public Jsonresult<List<Shelves>> optimize() {
+        List<Shelves> data=WarehouseLayoutService.optimize();
+        return new Jsonresult<List<Shelves>>(OK, data);
     }
 }

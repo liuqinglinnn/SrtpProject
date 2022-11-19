@@ -36,6 +36,7 @@ public interface WarehouseLayoutDao {
 
     //获取货架关系表
     ShelvesDis getshelvesdis(Integer sid1, Integer sid2);
+
     //获取仓库基本信息
     Housebase gethousebase(Integer id);
     //修改仓库基本信息

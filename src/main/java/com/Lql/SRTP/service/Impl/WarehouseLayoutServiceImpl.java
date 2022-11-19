@@ -17,7 +17,7 @@ import java.util.Random;
 public class WarehouseLayoutServiceImpl implements IWarehouseLayoutService {
     @Autowired
     private WarehouseLayoutDao WarehouseLayoutMapper;
-    @Autowired
+ @Autowired
     private CreatedotdisDao CreatedotdisMapper;
 
     @Override
@@ -67,11 +67,10 @@ public class WarehouseLayoutServiceImpl implements IWarehouseLayoutService {
             num = num + Math.sqrt(1 + k * xy);
         }
 
-        WarehouseLayoutMapper.updatashelvesdis(compare1, compare2, num);
+    WarehouseLayoutMapper.updatashelvesdis(compare1, compare2, num);
         ShelvesDis simresult = WarehouseLayoutMapper.getshelvesdis(compare1, compare2);
         return simresult;
     }
-
     //计算货架的好坏程度
     @Override
     public Double getshelvescroe(Integer sid) {
@@ -118,11 +117,11 @@ public class WarehouseLayoutServiceImpl implements IWarehouseLayoutService {
     @Override
     public Double getoptimizequalitydegree(List<Shelves> newshelveslist) {
         Double scoresum = 0.0;
-        List<Product> productlistfirst = WarehouseLayoutMapper.getAllproduct();
-        Housebase house=WarehouseLayoutMapper.gethousebase(1);
+        Housebase house = WarehouseLayoutMapper.gethousebase(1);
         //循环所有x
-        for (int i = 0; i < productlistfirst.size(); i++) {
+        for (int i = 0; i < newshelveslist.size(); i++) {
             Integer sidi = newshelveslist.get(i).getId();
+            Shelves shelvesnow = newshelveslist.get(i);
             Double score = 0.0;
             Double score1 = 0.0;
             Double score2 = 0.0;
@@ -130,24 +129,20 @@ public class WarehouseLayoutServiceImpl implements IWarehouseLayoutService {
             if (sidi == null) {
                 score = -100.0;
             }
-            else
-            {   //获取对每个y的score1
+            //有货物
+            else {   //获取对每个y的score1
                 double k1 = 1.0, k2 = 1.0, k3 = 1.0, k4 = 1.0, k5 = 1.0, c1 = 1.0, c2 = 1.0;
                 Integer chux = 0, chuy = 0, rux = 100, ruy = 100;
-                Product productnow=WarehouseLayoutMapper.getproductByPid(newshelveslist.get(i).getPid());
-//                for (int j = 0; j < newshelveslist.size(); j++) {
-//                    Integer sidj = newshelveslist.get(j).getId();
-//                        Product product = WarehouseLayoutMapper.getproductByPid();
-//                        List<Product> productlist = WarehouseLayoutMapper.getAllproduct();
-//                        Housebase house = WarehouseLayoutMapper.gethousebase(1);
-//                        for (int k = 0; k < productlist.size(); k++) {
-//                            ShelvesDis tem = getsimilaritynum(product.getId(), productlist.get(k).getId());
-//                            score1 += k1 * tem.getNum1() / (k2 * tem.getDis() + c1);
-//                        }
-//                        Dotdis temdis1 = new Dotdis(chux, chuy, shelve.getSx2(), shelve.getSy2(), null);
-//                        Dotdis temdis2 = new Dotdis(rux, ruy, shelve.getSx2(), shelve.getSy2(), null); }
+                Product productnow = WarehouseLayoutMapper.getproductByPid(shelvesnow.getPid());
+                Dotdis temdis1 = new Dotdis(chux, chuy, shelvesnow.getSx2(), shelvesnow.getSy2(), null);
+                Dotdis temdis2 = new Dotdis(rux, ruy, shelvesnow.getSx2(), shelvesnow.getSy2(), null);
+                for (int j = 0; j < newshelveslist.size(); j++) {
+                    Integer sidj = newshelveslist.get(j).getId();
+                    ShelvesDis tem =WarehouseLayoutMapper.getshelvesdis(sidi,sidj);
+                    score1 += k1 * tem.getNum1() / (k2 * tem.getDis() + c1);
+                }
                 //获取score2
-                       Integer dischurusum = CreatedotdisMapper.getdis(temdis1).getDis() + CreatedotdisMapper.getdis(temdis2).getDis();
+                Integer dischurusum = CreatedotdisMapper.getdis(temdis1).getDis() + CreatedotdisMapper.getdis(temdis2).getDis();
                 score2 = score2 + k3 * productnow.getIton() / house.getIton() + k4 * productnow.getItom() / house.getItom();
                 score2 = score2 / (k5 * dischurusum + c2);
                 score = score1 + score2;

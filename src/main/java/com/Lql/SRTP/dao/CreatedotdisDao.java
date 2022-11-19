@@ -3,9 +3,7 @@ package com.Lql.SRTP.dao;
 import com.Lql.SRTP.entity.Dot;
 import com.Lql.SRTP.entity.Dotdis;
 import com.Lql.SRTP.entity.ShelvesDis;
-import lombok.Setter;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -28,10 +26,13 @@ public interface CreatedotdisDao {
 
     //获取距离
     Dotdis getdis(Dotdis dotdis);
+
     //修改距离
     Integer changedotdis(Dotdis dotdisnew);
+
     //添加货架距离
     Integer addshelves(ShelvesDis ShelvesDis);
+
     //获取货架距离表
     List<ShelvesDis> getshelvesdis();
 }

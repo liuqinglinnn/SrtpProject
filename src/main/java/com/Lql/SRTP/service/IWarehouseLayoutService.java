@@ -1,7 +1,6 @@
 package com.Lql.SRTP.service;
 
 import com.Lql.SRTP.entity.Orderitem;
-import com.Lql.SRTP.entity.Product;
 import com.Lql.SRTP.entity.Shelves;
 import com.Lql.SRTP.entity.ShelvesDis;
 
@@ -22,7 +21,6 @@ public interface IWarehouseLayoutService {
 
     //总好坏程度
     Double scoresum();
-
     //计算模拟退火时的好坏程度
     Double getoptimizequalitydegree(List<Shelves> Newlist);
 
