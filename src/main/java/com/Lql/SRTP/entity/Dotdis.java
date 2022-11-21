@@ -1,8 +1,10 @@
 package com.Lql.SRTP.entity;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Objects;
-
+@Data
 public class Dotdis implements Serializable {
     private Integer m1;
     private Integer n1;
@@ -75,10 +77,17 @@ public class Dotdis implements Serializable {
     }
 
     public Dotdis(Integer m1, Integer n1, Integer m2, Integer n2, Integer dis) {
+        if(m1==null) this.m1=-1;
+        if(m2==null) this.m2=-1;
+        if(n1==null) this.n1=-1;
+        if(n2==null) this.n2=-1;
+        if(dis==null) this.dis=-1;
+
         this.m1 = m1;
         this.n1 = n1;
         this.m2 = m2;
         this.n2 = n2;
         this.dis = dis;
     }
+
 }

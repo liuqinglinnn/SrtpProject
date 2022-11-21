@@ -7,6 +7,7 @@ import com.Lql.SRTP.entity.Dotdis;
 import com.Lql.SRTP.entity.Shelves;
 import com.Lql.SRTP.entity.ShelvesDis;
 import com.Lql.SRTP.service.ICreatedotdisService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
+@Slf4j
 public class CreatedotdisServiceImpl implements ICreatedotdisService {
     @Autowired
     private CreatedotdisDao CreatedotdisMapper;
@@ -24,7 +26,7 @@ public class CreatedotdisServiceImpl implements ICreatedotdisService {
     @Override
     public List<Dot> createDot() {
         Integer id = 0, shelves = 0, x, y;
-        Integer lenx = 100, leny = 100;//仓库的最大xy
+        Integer lenx = 10, leny = 5;//仓库的最大xy
         List<Shelves> slist = WarehouseLayoutMapper.getAllshelves();
         //点阵
         for (int i = 0; i < lenx; i++) {
@@ -41,20 +43,18 @@ public class CreatedotdisServiceImpl implements ICreatedotdisService {
         }
         //障碍物
         for (int i = 0; i < slist.size(); i++) {
-            int x1 = slist.get(i).getSx1();
-            int x2 = slist.get(i).getSx2();
-            int y1 = slist.get(i).getSy1();
-            int y2 = slist.get(i).getSy2();
-            int sid = slist.get(i).getId();
-            for (int j = x1; j < x2; j++) {
-                for (int k = y1; k < y2; k++) {
-                    Dot dottem1 = new Dot(null, -1, j, k);
-                    CreatedotdisMapper.changedot(dottem1);
+            Integer x1 = slist.get(i).getSx1();
+            Integer x2 = slist.get(i).getSx2();
+            Integer y1 = slist.get(i).getSy1();
+            Integer y2 = slist.get(i).getSy2();
+            Integer sid = slist.get(i).getId();
+            for (Integer j = x1; j < x2; j++) {
+                for (Integer k = y1; k < y2; k++) {
+                    CreatedotdisMapper.changedot(j, k, 0);
                 }
             }
             //这里设置货架出库点为x2y2点，有变化再改
-            Dot dottem2 = new Dot(null, sid, x2, y2);
-            CreatedotdisMapper.changedot(dottem2);
+            CreatedotdisMapper.changedot(x2, y2, sid);
         }
         List<Dot> dotlist = CreatedotdisMapper.getdotlist();
         return dotlist;
@@ -62,10 +62,10 @@ public class CreatedotdisServiceImpl implements ICreatedotdisService {
 
     @Override
     public void adddotdatabase() {
-        Integer lenx = 100, leny = 100;//仓库的最大xy
+        Integer lenx = 10, leny = 5;//仓库的最大xy
         //把相连的点保存到距离矩阵中
-        for (int i = 0; i < lenx; i++) {
-            for (int j = 0; j < leny; j++) {
+        for (int i = 0; i < lenx - 1; i++) {
+            for (int j = 0; j < leny - 1; j++) {
                 Dot dotnow = CreatedotdisMapper.getdot(i, j);
                 if (dotnow.getShelves() != -1)//自己不是障碍物
                 {
@@ -93,15 +93,19 @@ public class CreatedotdisServiceImpl implements ICreatedotdisService {
         //创建顶点list
         List<Dot> a = CreatedotdisMapper.getdotlist();
         Dotdis[][] matrixA = new Dotdis[a.size()][a.size()];
-        for (int i = 0; i < a.size(); i++) {
-            for (int j = 0; j < a.size(); j++) {
+        for (int i = 0; i < a.size() - 1; i++) {
+            for (int j = 0; j < a.size() - 1; j++) {
                 Integer x1 = a.get(i).getX();
                 Integer y1 = a.get(i).getY();
                 Integer x2 = a.get(j).getX();
                 Integer y2 = a.get(j).getY();
-                Dotdis temp = new Dotdis(x1, y1, x2, y2, null);
+                Dotdis temp = new Dotdis(x1, y1, x2, y2, 0);
                 Dotdis temdotdis = CreatedotdisMapper.getdis(temp);
-                matrixA[i][j] = temdotdis;
+                if(temdotdis!=null)
+                {
+                    temp.setDis(temdotdis.getDis());
+                }
+                matrixA[i][j] = temp;
             }
         }
         //创建前驱顶点list
@@ -114,11 +118,11 @@ public class CreatedotdisServiceImpl implements ICreatedotdisService {
         //保存距离
         int len;
         //对中间顶点遍历
-        for (int k = 0; k < matrixA.length; k++) {
+        for (int k = 0; k < matrixA.length-1; k++) {
             //从i顶点开始出发
-            for (int i = 0; i < matrixA.length; i++) {
+            for (int i = 0; i < matrixA.length-1; i++) {
                 //到达j顶点
-                for (int j = 0; j < matrixA.length; j++) {
+                for (int j = 0; j < matrixA.length-1; j++) {
                     //求出从i顶点出发经过k到达j的距离
                     len = matrixA[i][k].getDis() + matrixA[k][j].getDis();
                     //若len小于dis[i][j],则进行更新
@@ -127,14 +131,16 @@ public class CreatedotdisServiceImpl implements ICreatedotdisService {
                         matrixA[i][j].setDis(len);
                         //更新前驱顶点
                         pre[i][j] = pre[k][j];
+
                     }
                 }
             }
         }
         //加入所有点到数据库
-        for (int i = 0; i < a.size(); i++) {
-            for (int j = 0; j < a.size(); j++) {
-                CreatedotdisMapper.changedotdis(matrixA[i][j]);
+        for (int i = 0; i < a.size()-1; i++) {
+            for (int j = 0; j < a.size()-1; j++) {
+                if (matrixA[i][j] != null)
+                    CreatedotdisMapper.adddis(matrixA[i][j]);
             }
         }
     }
@@ -165,7 +171,11 @@ public class CreatedotdisServiceImpl implements ICreatedotdisService {
                 g2 = shelves.get(j).getPid();
                 Dotdis temdis = new Dotdis(x1, y1, x2, y2, null);
                 Dotdis temdis2 = CreatedotdisMapper.getdis(temdis);
-                dis = temdis2.getDis();
+                if(temdis2==null)
+                {
+                    dis=0;
+                }
+               else dis=temdis2.getDis();
                 ShelvesDis tem = new ShelvesDis(x1, y1, x2, y2, s1, s2, g1, g2, num1, num2, score1, score2, dis);
                 CreatedotdisMapper.addshelves(tem);
             }
