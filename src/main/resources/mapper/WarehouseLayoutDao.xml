@@ -5,26 +5,26 @@
 <mapper namespace="com.Lql.SRTP.dao.WarehouseLayoutDao">
     <select id="getorderitemByPid" resultType="com.Lql.SRTP.entity.Orderitem">
         SELECT *
-        FROM srtp_orderitem
+        FROM order_item
         WHERE pid = #{pid}
     </select>
     <select id="getproductByPid" resultType="com.Lql.SRTP.entity.Product">
         SELECT *
-        FROM srtp_product
+        FROM product
         WHERE id = #{pid}
     </select>
     <select id="getAllproduct" resultType="com.Lql.SRTP.entity.Product">
         SELECT *
-        FROM srtp_product
+        FROM product
     </select>
     <select id="getshelvesBysid" resultType="com.Lql.SRTP.entity.Shelves">
         SELECT *
-        FROM srtp_shelves
-        WHERE id = #{sid}
+        FROM shelves
+        WHERE sid = #{sid}
     </select>
     <select id="getAllshelves" resultType="com.Lql.SRTP.entity.Shelves">
         SELECT *
-        FROM srtp_shelves
+        FROM shelves
     </select>
     <select id="gettimerest" resultType="com.Lql.SRTP.entity.Orderitem">
         SELECT *
@@ -35,33 +35,29 @@
     <update id="changeproduct">
         update srtp_product
         <set>
-
-            iton=#{iton},
-            itom=#{itom}
-
+            <if test="id==#{pid}">
+                iton=#{iton}
+                itom=#{itom}
+            </if>
         </set>
-        where id=#{pid}
     </update>
     <select id="gettogetheritem" resultType="com.Lql.SRTP.entity.Orderitem">
         SELECT *
         FROM srtp_orderitem
-        where oid IN (SELECT oid
-                      FROM srtp_orderitem
-                      where oid IN (SELECT oid FROM srtp_orderitem WHERE pid = #{one})
-                        and pid = #{two})
-          and (pid = #{two} or pid = #{one})
-
-
+        WHERE oid IN (SELECT oid FROM srtp_orderitem WHERE pid = #{one})
+          and pid = #{two}
         ORDER BY oid Desc
     </select>
     <update id="updatashelvesdis">
         update srtp_shelvesdis
         <set>
-            <if test="num!=null">
+            <if test="g1==#{pid1} and g2==#{pid2}">
+                num1=#{num}
+            </if>
+            <if test="g2==#{pid1} and g1==#{pid2}">
                 num1=#{num}
             </if>
         </set>
-        where g1=#{pid1} and g2=#{pid2}
     </update>
     <select id="getshelvesdis" resultType="com.Lql.SRTP.entity.ShelvesDis">
         SELECT *
@@ -74,15 +70,6 @@
         FROM srtp_housebase
         WHERE id = #{id}
     </select>
-    <update id="changeshelvessv">
-        update srtp_shelves
-        <set>
-            <if test="sv!=null">
-                sv=#{sv}
-            </if>
-        </set>
-        where id=#{sid}
-    </update>
 
 
 </mapper>

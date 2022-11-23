@@ -5,22 +5,22 @@
 <mapper namespace="com.Lql.SRTP.dao.CreatedotdisDao">
     <insert id="adddot" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO srtp_dot
-            (id, shelves, x, y)
+            (dot_id, dot_shelves, dot_x, dot_y)
         VALUES (#{id}, #{shelves}, #{x}, #{y})
     </insert>
     <select id="getdot" resultType="com.Lql.SRTP.entity.Dot">
         SELECT *
         FROM srtp_dot
-        WHERE x = #{x}
-          and y = #{y}
+        WHERE dot_x = #{x}
+          and dot_y = #{y}
     </select>
     <select id="getdis" resultType="com.Lql.SRTP.entity.Dotdis">
         SELECT *
         FROM srtp_dotdis
-        WHERE m1 = #{m1}
-          and n1 = #{n1}
-          and m2 = #{m2}
-          and n2 = #{n2}
+        WHERE m1 = #{x1}
+          and n1 = #{y1}
+          and m2 = #{x2}
+          and n2 = #{y2}
     </select>
     <insert id="adddis">
         INSERT INTO srtp_dotdis
@@ -32,26 +32,23 @@
         FROM srtp_dot
     </select>
     <update id="changedot">
-        UPDATE srtp_dot
+        update srtp_dot
         <set>
-            <if test="shelves!=null">
-                shelves = #{shelves}
+            <if test="x==#{x} and y==#{y}">
+                shelves=#{shelves}
             </if>
-
         </set>
-        where x = #{x} and y = #{y}
     </update>
     <update id="changedotdis">
         update srtp_dotdis
         <set>
-            <if test="dis!=null">
+            <if test="m1==#{m1} and m2==#{m2} and n1==#{n1} and n2=#{n2}">
                 dis=#{dis}
             </if>
         </set>
-        where m1 = #{m1} and n1 = #{n1} and m2 = #{m2} and n2 = #{n2}
     </update>
     <insert id="addshelves">
-        INSERT INTO srtp_shelvesdis
+        INSERT INTO order_item
             (x1, y1, x2, y2, s1, s2, g1, g2, num1, num2, score1, score2)
         VALUES (#{x1}, #{y1}, #{x2}, #{y2}, #{s1}, #{s2}, #{g1}, #{g2},
                 #{num1}, #{num2}, #{score1}, #{score2})

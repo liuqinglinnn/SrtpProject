@@ -1,11 +1,11 @@
 package com.Lql.SRTP.service.Impl;
 
+import com.Lql.SRTP.dao.CreatedotdisDao;
 import com.Lql.SRTP.dao.WarehouseLayoutDao;
 import com.Lql.SRTP.entity.*;
 import com.Lql.SRTP.service.IWarehouseLayoutService;
 import com.Lql.SRTP.service.ex.BetterResultNotFoundException;
 import com.Lql.SRTP.service.ex.OidNotFoundException;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-@Slf4j
 @Service
 public class WarehouseLayoutServiceImpl implements IWarehouseLayoutService {
     @Autowired
     private WarehouseLayoutDao WarehouseLayoutMapper;
+ @Autowired
+    private CreatedotdisDao CreatedotdisMapper;
 
     @Override
     public List<Orderitem> getorderitemByPid(Integer pid) {
@@ -34,21 +35,20 @@ public class WarehouseLayoutServiceImpl implements IWarehouseLayoutService {
     public void computito(Integer pid, String starttime, String endtime) {
         List<Orderitem> orderlist = getorderitemByPid(pid);
         //获取一个季度初末库存
-//        Orderitem startitem = WarehouseLayoutMapper.gettimerest(starttime, pid);
-//        Orderitem enditem = WarehouseLayoutMapper.gettimerest(endtime, pid);
-        //       Integer startnum = startitem.getPrest();
-//        Integer endnum = enditem.getPrest();
-//        Double avenum = (double) (startnum + endnum) / 2;
+        Orderitem startitem = WarehouseLayoutMapper.gettimerest(starttime, pid);
+        Orderitem enditem = WarehouseLayoutMapper.gettimerest(endtime, pid);
+        Integer startnum = startitem.getPrest();
+        Integer endnum = enditem.getPrest();
+        Double avenum = (double) (startnum + endnum) / 2;
         //获取一个季度的出库量
         Integer outnum = 0;
         for (int i = 0; i < orderlist.size(); i++) {
-            //if (orderlist.get(i).getPstate() == 1) {
-            outnum += orderlist.get(i).getPnum();
-            //   }
+            if (orderlist.get(i).getPstate() == 1) {
+                outnum += orderlist.get(i).getPnum();
+            }
         }
         //计算ito
-        //     Double iton = outnum / avenum;
-        Double iton = outnum / 50.0;
+        Double iton = outnum / avenum;
         //存入数据库
         Double itom = iton * WarehouseLayoutMapper.getproductByPid(pid).getPrice();
         WarehouseLayoutMapper.changeproduct(iton, itom, pid);
@@ -62,18 +62,15 @@ public class WarehouseLayoutServiceImpl implements IWarehouseLayoutService {
         List<Orderitem> itemlist = WarehouseLayoutMapper.gettogetheritem(compare1, compare2);
         Double num = 0.0;
         Double k = 1.0;//系数
-        log.info(itemlist.toString());
-        for (int i = 0; i < itemlist.size(); ) {
+        for (int i = 0; i < itemlist.size(); i = i + 2) {
             Integer xy = itemlist.get(i).getPnum() * itemlist.get(i + 1).getPnum();
             num = num + Math.sqrt(1 + k * xy);
-            i = i + 2;
         }
 
-        WarehouseLayoutMapper.updatashelvesdis(compare1, compare2, num);
+    WarehouseLayoutMapper.updatashelvesdis(compare1, compare2, num);
         ShelvesDis simresult = WarehouseLayoutMapper.getshelvesdis(compare1, compare2);
         return simresult;
     }
-
     //计算货架的好坏程度
     @Override
     public Double getshelvescroe(Integer sid) {
@@ -81,7 +78,6 @@ public class WarehouseLayoutServiceImpl implements IWarehouseLayoutService {
 
         //无货物为-100
         if (shelve.getPid() == null) {
-
             return -100.0;
         }
         //计算scoresum,存入数据库，作为返回结果
@@ -92,25 +88,16 @@ public class WarehouseLayoutServiceImpl implements IWarehouseLayoutService {
             double score, score1 = 0.0, score2 = 0.0;
             double k1 = 1.0, k2 = 1.0, k3 = 1.0, k4 = 1.0, k5 = 1.0, c1 = 1.0, c2 = 1.0;
             Integer chux = 0, chuy = 0, rux = 100, ruy = 100;
-            log.info("222");
             for (int i = 0; i < productlist.size(); i++) {
-                log.info("333");
-                if (productlist.get(i).getId() != product.getId()) {
-
-                    ShelvesDis tem = getsimilaritynum(product.getId(), productlist.get(i).getId());
-                    if (tem != null)
-                        score1 += k1 * tem.getNum1() / (k2 * tem.getDis() + c1);
-                }
-
+                ShelvesDis tem = getsimilaritynum(product.getId(), productlist.get(i).getId());
+                score1 += k1 * tem.getNum1() / (k2 * tem.getDis() + c1);
             }
             Dotdis temdis1 = new Dotdis(chux, chuy, shelve.getSx2(), shelve.getSy2(), null);
             Dotdis temdis2 = new Dotdis(rux, ruy, shelve.getSx2(), shelve.getSy2(), null);
-            //出入口距离
-            Integer dischurusum = WarehouseLayoutMapper.getshelvesdis(shelve.getId(), 15).getDis();
+            Integer dischurusum = CreatedotdisMapper.getdis(temdis1).getDis() + CreatedotdisMapper.getdis(temdis2).getDis();
             score2 = score2 + k3 * product.getIton() / house.getIton() + k4 * product.getItom() / house.getItom();
             score2 = score2 / (k5 * dischurusum + c2);
             score = score1 + score2;
-            WarehouseLayoutMapper.changeshelvessv(sid, score);
             return score;
         }
     }
@@ -151,22 +138,13 @@ public class WarehouseLayoutServiceImpl implements IWarehouseLayoutService {
                 Dotdis temdis2 = new Dotdis(rux, ruy, shelvesnow.getSx2(), shelvesnow.getSy2(), null);
                 for (int j = 0; j < newshelveslist.size(); j++) {
                     Integer sidj = newshelveslist.get(j).getId();
-                    ShelvesDis tem = WarehouseLayoutMapper.getshelvesdis(sidi, sidj);
-                    if(tem!=null&&tem.getNum1()!=null)
-
+                    ShelvesDis tem =WarehouseLayoutMapper.getshelvesdis(sidi,sidj);
                     score1 += k1 * tem.getNum1() / (k2 * tem.getDis() + c1);
                 }
                 //获取score2
-                Integer dischurusum=100;
-                if(WarehouseLayoutMapper.getshelvesdis(shelvesnow.getId(), 15)!=null){
-                     dischurusum = WarehouseLayoutMapper.getshelvesdis(shelvesnow.getId(), 15).getDis();
-                }
-
-                if(productnow!=null){
-                    score2 = score2 + k3 * productnow.getIton() / house.getIton() + k4 * productnow.getItom() / house.getItom();
-                    score2 = score2 / (k5 * dischurusum + c2);
-                }
-
+                Integer dischurusum = CreatedotdisMapper.getdis(temdis1).getDis() + CreatedotdisMapper.getdis(temdis2).getDis();
+                score2 = score2 + k3 * productnow.getIton() / house.getIton() + k4 * productnow.getItom() / house.getItom();
+                score2 = score2 / (k5 * dischurusum + c2);
                 score = score1 + score2;
             }
             scoresum += score;
@@ -177,7 +155,7 @@ public class WarehouseLayoutServiceImpl implements IWarehouseLayoutService {
     //模拟退火算法
     @Override
     public List<Shelves> optimize() {
-        double T = 50;//初始温度（半径）
+        double T = 100;//初始温度（半径）
         double del = 0.99;//退火速率
         double lim = 1;//最低限度
         int j, k, l, m;
@@ -202,10 +180,7 @@ public class WarehouseLayoutServiceImpl implements IWarehouseLayoutService {
                 List<Shelves> temlist = new ArrayList<Shelves>();
                 for (k = 0; k < Newlist.size(); k++) {
                     //符合条件的列表
-                    ShelvesDis dist = WarehouseLayoutMapper.getshelvesdis(Newlist.get(j).getId(), Newlist.get(k).getId());
-                    Integer dis = 0;
-                    if (dist != null)
-                        dis = dist.getDis();
+                    Integer dis = WarehouseLayoutMapper.getshelvesdis(Newlist.get(j).getId(), Newlist.get(k).getId()).getDis();
                     if (dis < i) {
                         temlist.add(Newlist.get(k));
                     }
@@ -216,10 +191,7 @@ public class WarehouseLayoutServiceImpl implements IWarehouseLayoutService {
                 //交换位置
                 for (l = 0; l < Newlist.size(); l++) {
                     //Newlist(l)是随机类Newlist(j)是圆心类
-                    if(ranentity.getPid()==null||Newlist.get(l).getPid()==null){
-                        //入口不管
-                    }
-                   else if(Newlist.get(l).getPid().equals(ranentity.getPid())) {
+                    if (Newlist.get(l).getPid().equals(ranentity.getPid())) {
                         //中间类
                         int p = Newlist.get(l).getPid();
                         Newlist.get(l).setPid(Newlist.get(j).getPid());

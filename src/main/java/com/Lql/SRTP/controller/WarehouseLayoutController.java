@@ -1,11 +1,10 @@
 package com.Lql.SRTP.controller;
 
-import com.Lql.SRTP.entity.Shelves;
-import com.Lql.SRTP.entity.ShelvesDis;
+import com.Lql.SRTP.dao.WarehouseLayoutDao;
+import com.Lql.SRTP.entity.*;
 import com.Lql.SRTP.service.IWarehouseLayoutService;
 import com.Lql.SRTP.util.Jsonresult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,39 +15,39 @@ import java.util.List;
 public class WarehouseLayoutController extends BaseController {
     @Autowired
     private IWarehouseLayoutService WarehouseLayoutService;
+    @Autowired
+    private WarehouseLayoutDao WarehouseLayoutDao;
 
-    @GetMapping("computito")
-    //计算x的周转量，周转率
-    public Jsonresult<Integer> getsimilaritynum(Integer pid, String starttime, String endtime) {
-        WarehouseLayoutService.computito(pid, starttime, endtime);
-        return new Jsonresult<Integer>(OK, 222);
+    @RequestMapping("getallproduct")
+    //获得所有货物列表
+    public Jsonresult<List<Product>> getAllproduct() {
+        List<Product> data = WarehouseLayoutDao.getAllproduct();
+        return new Jsonresult<List<Product>>(OK, data);
+    }
+    @RequestMapping("showincludepidorder")
+    //展示含有pid的所有订单
+    public Jsonresult<List<Orderitem>> showincludepidorder(Integer pid) {
+        List<Orderitem> data = WarehouseLayoutService.getorderitemByPid(pid);
+        return new Jsonresult<List<Orderitem>>(OK, data);
     }
 
-    //获得x,y的相似度的值
-    @GetMapping("getsimilaritynum")
+    @RequestMapping("showsimiliaritynumbypid")
+    //展示两个pid的相似度关系
     public Jsonresult<ShelvesDis> getsimilaritynum(Integer compare1, Integer compare2) {
         ShelvesDis data = WarehouseLayoutService.getsimilaritynum(compare1, compare2);
         return new Jsonresult<ShelvesDis>(OK, data);
     }
 
-    //计算货架的好坏程度
-    @GetMapping("getshelvescroe")
-    public Jsonresult<Double> getshelvescroe(Integer sid) {
-        Double data = WarehouseLayoutService.getshelvescroe(sid);
-        return new Jsonresult<Double>(OK, data);
-    }
-
-    @GetMapping("showshelvequalitydegree")
+    @RequestMapping("showshelvequalitydegree")
     //展示货架的总好坏程度
     public Jsonresult<Double> showshelvequalitydegree() {
         Double data = WarehouseLayoutService.scoresum();
         return new Jsonresult<Double>(OK, data);
     }
-
-    @GetMapping("optimize")
+    @RequestMapping("optimize")
     //模拟退火
     public Jsonresult<List<Shelves>> optimize() {
-        List<Shelves> data = WarehouseLayoutService.optimize();
+        List<Shelves> data=WarehouseLayoutService.optimize();
         return new Jsonresult<List<Shelves>>(OK, data);
     }
 }
