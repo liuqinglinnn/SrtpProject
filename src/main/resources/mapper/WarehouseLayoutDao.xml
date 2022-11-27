@@ -3,32 +3,32 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.Lql.SRTP.dao.WarehouseLayoutDao">
-    <select id="getorderitemByPid" resultType="com.Lql.SRTP.entity.OrderItem">
+    <select id="getorderitemByPid" resultType="com.Lql.SRTP.entity.SrtpOrderItem">
         SELECT *
-        FROM order_item
+        FROM srtp_order_item
         WHERE pid = #{pid}
     </select>
-    <select id="getproductByPid" resultType="com.Lql.SRTP.entity.Product">
+    <select id="getproductByPid" resultType="com.Lql.SRTP.entity.SrtpProduct">
         SELECT *
-        FROM product
+        FROM srtp_product
         WHERE id = #{pid}
     </select>
-    <select id="getAllproduct" resultType="com.Lql.SRTP.entity.Product">
+    <select id="getAllproduct" resultType="com.Lql.SRTP.entity.SrtpProduct">
         SELECT *
-        FROM product
+        FROM srtp_product
     </select>
-    <select id="getshelvesBysid" resultType="com.Lql.SRTP.entity.Shelves">
+    <select id="getshelvesBysid" resultType="com.Lql.SRTP.entity.SrtpShelves">
         SELECT *
-        FROM shelves
+        FROM srtp_shelves
         WHERE sid = #{sid}
     </select>
-    <select id="getAllshelves" resultType="com.Lql.SRTP.entity.Shelves">
+    <select id="getAllshelves" resultType="com.Lql.SRTP.entity.SrtpShelves">
         SELECT *
-        FROM shelves
+        FROM srtp_shelves
     </select>
-    <select id="gettimerest" resultType="com.Lql.SRTP.entity.OrderItem">
+    <select id="gettimerest" resultType="com.Lql.SRTP.entity.SrtpOrderItem">
         SELECT *
-        FROM srtp_orderitem
+        FROM srtp_order_item
         where pmodifiedtime like #{time}
         order by pmodifiedtime desc limit 1
     </select>
@@ -41,15 +41,15 @@
             </if>
         </set>
     </update>
-    <select id="gettogetheritem" resultType="com.Lql.SRTP.entity.OrderItem">
+    <select id="gettogetheritem" resultType="com.Lql.SRTP.entity.SrtpOrderItem">
         SELECT *
-        FROM srtp_orderitem
+        FROM srtp_order_item
         WHERE oid IN (SELECT oid FROM srtp_orderitem WHERE pid = #{one})
           and pid = #{two}
         ORDER BY oid Desc
     </select>
     <update id="updatashelvesdis">
-        update srtp_shelvesdis
+        update srtp_shelves_dis
         <set>
             <if test="g1==#{pid1} and g2==#{pid2}">
                 num1=#{num}
@@ -59,15 +59,15 @@
             </if>
         </set>
     </update>
-    <select id="getshelvesdis" resultType="com.Lql.SRTP.entity.ShelvesDis">
+    <select id="getshelvesdis" resultType="com.Lql.SRTP.entity.SrtpShelvesDis">
         SELECT *
-        FROM srtp_shelvesdis
+        FROM srtp_shelves_dis
         WHERE s1 = #{sid1}
           and s2 = #{sid2}
     </select>
-    <select id="gethousebase" resultType="com.Lql.SRTP.entity.HouseBase">
+    <select id="gethousebase" resultType="com.Lql.SRTP.entity.SrtpHouseBase">
         SELECT *
-        FROM srtp_housebase
+        FROM srtp_house_base
         WHERE id = #{id}
     </select>
 

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Lql.SRTP.dao.SrtpShelvesMapper">
+  <resultMap id="BaseResultMap" type="com.Lql.SRTP.entity.SrtpShelves">
+    <!--@mbg.generated-->
+    <!--@Table srtp_shelves-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sx1" jdbcType="INTEGER" property="sx1" />
+    <result column="sx2" jdbcType="INTEGER" property="sx2" />
+    <result column="sy1" jdbcType="INTEGER" property="sy1" />
+    <result column="sy2" jdbcType="INTEGER" property="sy2" />
+    <result column="sv" jdbcType="DOUBLE" property="sv" />
+    <result column="pid" jdbcType="INTEGER" property="pid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, sx1, sx2, sy1, sy2, sv, pid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from srtp_shelves
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from srtp_shelves
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.Lql.SRTP.entity.SrtpShelves">
+    <!--@mbg.generated-->
+    insert into srtp_shelves (id, sx1, sx2, 
+      sy1, sy2, sv, pid
+      )
+    values (#{id,jdbcType=INTEGER}, #{sx1,jdbcType=INTEGER}, #{sx2,jdbcType=INTEGER}, 
+      #{sy1,jdbcType=INTEGER}, #{sy2,jdbcType=INTEGER}, #{sv,jdbcType=DOUBLE}, #{pid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.Lql.SRTP.entity.SrtpShelves">
+    <!--@mbg.generated-->
+    insert into srtp_shelves
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sx1 != null">
+        sx1,
+      </if>
+      <if test="sx2 != null">
+        sx2,
+      </if>
+      <if test="sy1 != null">
+        sy1,
+      </if>
+      <if test="sy2 != null">
+        sy2,
+      </if>
+      <if test="sv != null">
+        sv,
+      </if>
+      <if test="pid != null">
+        pid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sx1 != null">
+        #{sx1,jdbcType=INTEGER},
+      </if>
+      <if test="sx2 != null">
+        #{sx2,jdbcType=INTEGER},
+      </if>
+      <if test="sy1 != null">
+        #{sy1,jdbcType=INTEGER},
+      </if>
+      <if test="sy2 != null">
+        #{sy2,jdbcType=INTEGER},
+      </if>
+      <if test="sv != null">
+        #{sv,jdbcType=DOUBLE},
+      </if>
+      <if test="pid != null">
+        #{pid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.Lql.SRTP.entity.SrtpShelves">
+    <!--@mbg.generated-->
+    update srtp_shelves
+    <set>
+      <if test="sx1 != null">
+        sx1 = #{sx1,jdbcType=INTEGER},
+      </if>
+      <if test="sx2 != null">
+        sx2 = #{sx2,jdbcType=INTEGER},
+      </if>
+      <if test="sy1 != null">
+        sy1 = #{sy1,jdbcType=INTEGER},
+      </if>
+      <if test="sy2 != null">
+        sy2 = #{sy2,jdbcType=INTEGER},
+      </if>
+      <if test="sv != null">
+        sv = #{sv,jdbcType=DOUBLE},
+      </if>
+      <if test="pid != null">
+        pid = #{pid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.Lql.SRTP.entity.SrtpShelves">
+    <!--@mbg.generated-->
+    update srtp_shelves
+    set sx1 = #{sx1,jdbcType=INTEGER},
+      sx2 = #{sx2,jdbcType=INTEGER},
+      sy1 = #{sy1,jdbcType=INTEGER},
+      sy2 = #{sy2,jdbcType=INTEGER},
+      sv = #{sv,jdbcType=DOUBLE},
+      pid = #{pid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

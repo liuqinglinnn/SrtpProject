@@ -1,13 +1,13 @@
 package com.Lql.SRTP.service;
 
-import com.Lql.SRTP.entity.Dot;
-import com.Lql.SRTP.entity.ShelvesDis;
+import com.Lql.SRTP.entity.SrtpDot;
+import com.Lql.SRTP.entity.SrtpShelvesDis;
 
 import java.util.List;
 
 public interface ICreatedotdisService {
     //自动打点
-    List<Dot> createDot();
+    List<SrtpDot> createDot();
 
     //存入m,n数据库
     void adddotdatabase();
@@ -16,5 +16,5 @@ public interface ICreatedotdisService {
     void fyld();
 
     //返回货架距离矩阵
-    List<ShelvesDis> getShelvesdis();
+    List<SrtpShelvesDis> getShelvesdis();
 }

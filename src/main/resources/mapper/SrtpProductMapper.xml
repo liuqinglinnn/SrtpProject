@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Lql.SRTP.dao.SrtpProductMapper">
+  <resultMap id="BaseResultMap" type="com.Lql.SRTP.entity.SrtpProduct">
+    <!--@mbg.generated-->
+    <!--@Table srtp_product-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="price" jdbcType="DOUBLE" property="price" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="sid" jdbcType="INTEGER" property="sid" />
+    <result column="priority" jdbcType="INTEGER" property="priority" />
+    <result column="iton" jdbcType="DOUBLE" property="iton" />
+    <result column="itom" jdbcType="DOUBLE" property="itom" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, company, title, price, num, image, `status`, sid, priority, iton, itom
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from srtp_product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from srtp_product
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.Lql.SRTP.entity.SrtpProduct">
+    <!--@mbg.generated-->
+    insert into srtp_product (id, company, title, 
+      price, num, image, `status`, 
+      sid, priority, iton, 
+      itom)
+    values (#{id,jdbcType=INTEGER}, #{company,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{price,jdbcType=DOUBLE}, #{num,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{sid,jdbcType=INTEGER}, #{priority,jdbcType=INTEGER}, #{iton,jdbcType=DOUBLE}, 
+      #{itom,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.Lql.SRTP.entity.SrtpProduct">
+    <!--@mbg.generated-->
+    insert into srtp_product
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="company != null">
+        company,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="num != null">
+        num,
+      </if>
+      <if test="image != null">
+        image,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="sid != null">
+        sid,
+      </if>
+      <if test="priority != null">
+        priority,
+      </if>
+      <if test="iton != null">
+        iton,
+      </if>
+      <if test="itom != null">
+        itom,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="image != null">
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sid != null">
+        #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="priority != null">
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="iton != null">
+        #{iton,jdbcType=DOUBLE},
+      </if>
+      <if test="itom != null">
+        #{itom,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.Lql.SRTP.entity.SrtpProduct">
+    <!--@mbg.generated-->
+    update srtp_product
+    <set>
+      <if test="company != null">
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="num != null">
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="image != null">
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sid != null">
+        sid = #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="priority != null">
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="iton != null">
+        iton = #{iton,jdbcType=DOUBLE},
+      </if>
+      <if test="itom != null">
+        itom = #{itom,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.Lql.SRTP.entity.SrtpProduct">
+    <!--@mbg.generated-->
+    update srtp_product
+    set company = #{company,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      num = #{num,jdbcType=INTEGER},
+      image = #{image,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=INTEGER},
+      sid = #{sid,jdbcType=INTEGER},
+      priority = #{priority,jdbcType=INTEGER},
+      iton = #{iton,jdbcType=DOUBLE},
+      itom = #{itom,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

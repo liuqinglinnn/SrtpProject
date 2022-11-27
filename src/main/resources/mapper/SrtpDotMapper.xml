@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Lql.SRTP.dao.SrtpDotMapper">
+  <resultMap id="BaseResultMap" type="com.Lql.SRTP.entity.SrtpDot">
+    <!--@mbg.generated-->
+    <!--@Table srtp_dot-->
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="shelves" jdbcType="INTEGER" property="shelves" />
+    <result column="x" jdbcType="INTEGER" property="x" />
+    <result column="y" jdbcType="INTEGER" property="y" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, shelves, x, y
+  </sql>
+  <insert id="insert" parameterType="com.Lql.SRTP.entity.SrtpDot">
+    <!--@mbg.generated-->
+    insert into srtp_dot (id, shelves, x, 
+      y)
+    values (#{id,jdbcType=INTEGER}, #{shelves,jdbcType=INTEGER}, #{x,jdbcType=INTEGER}, 
+      #{y,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.Lql.SRTP.entity.SrtpDot">
+    <!--@mbg.generated-->
+    insert into srtp_dot
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="shelves != null">
+        shelves,
+      </if>
+      <if test="x != null">
+        x,
+      </if>
+      <if test="y != null">
+        y,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="shelves != null">
+        #{shelves,jdbcType=INTEGER},
+      </if>
+      <if test="x != null">
+        #{x,jdbcType=INTEGER},
+      </if>
+      <if test="y != null">
+        #{y,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

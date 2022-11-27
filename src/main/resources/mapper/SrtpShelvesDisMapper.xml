@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Lql.SRTP.dao.SrtpShelvesDisMapper">
+  <resultMap id="BaseResultMap" type="com.Lql.SRTP.entity.SrtpShelvesDis">
+    <!--@mbg.generated-->
+    <!--@Table srtp_shelves_dis-->
+    <result column="x1" jdbcType="INTEGER" property="x1" />
+    <result column="y1" jdbcType="INTEGER" property="y1" />
+    <result column="x2" jdbcType="INTEGER" property="x2" />
+    <result column="y2" jdbcType="INTEGER" property="y2" />
+    <result column="s1" jdbcType="INTEGER" property="s1" />
+    <result column="s2" jdbcType="INTEGER" property="s2" />
+    <result column="g1" jdbcType="INTEGER" property="g1" />
+    <result column="g2" jdbcType="INTEGER" property="g2" />
+    <result column="num1" jdbcType="DOUBLE" property="num1" />
+    <result column="num2" jdbcType="DOUBLE" property="num2" />
+    <result column="score1" jdbcType="DOUBLE" property="score1" />
+    <result column="score2" jdbcType="DOUBLE" property="score2" />
+    <result column="dis" jdbcType="INTEGER" property="dis" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    x1, y1, x2, y2, s1, s2, g1, g2, num1, num2, score1, score2, dis
+  </sql>
+  <insert id="insert" parameterType="com.Lql.SRTP.entity.SrtpShelvesDis">
+    <!--@mbg.generated-->
+    insert into srtp_shelves_dis (x1, y1, x2, y2, 
+      s1, s2, g1, g2, 
+      num1, num2, score1, score2, 
+      dis)
+    values (#{x1,jdbcType=INTEGER}, #{y1,jdbcType=INTEGER}, #{x2,jdbcType=INTEGER}, #{y2,jdbcType=INTEGER}, 
+      #{s1,jdbcType=INTEGER}, #{s2,jdbcType=INTEGER}, #{g1,jdbcType=INTEGER}, #{g2,jdbcType=INTEGER}, 
+      #{num1,jdbcType=DOUBLE}, #{num2,jdbcType=DOUBLE}, #{score1,jdbcType=DOUBLE}, #{score2,jdbcType=DOUBLE}, 
+      #{dis,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.Lql.SRTP.entity.SrtpShelvesDis">
+    <!--@mbg.generated-->
+    insert into srtp_shelves_dis
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="x1 != null">
+        x1,
+      </if>
+      <if test="y1 != null">
+        y1,
+      </if>
+      <if test="x2 != null">
+        x2,
+      </if>
+      <if test="y2 != null">
+        y2,
+      </if>
+      <if test="s1 != null">
+        s1,
+      </if>
+      <if test="s2 != null">
+        s2,
+      </if>
+      <if test="g1 != null">
+        g1,
+      </if>
+      <if test="g2 != null">
+        g2,
+      </if>
+      <if test="num1 != null">
+        num1,
+      </if>
+      <if test="num2 != null">
+        num2,
+      </if>
+      <if test="score1 != null">
+        score1,
+      </if>
+      <if test="score2 != null">
+        score2,
+      </if>
+      <if test="dis != null">
+        dis,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="x1 != null">
+        #{x1,jdbcType=INTEGER},
+      </if>
+      <if test="y1 != null">
+        #{y1,jdbcType=INTEGER},
+      </if>
+      <if test="x2 != null">
+        #{x2,jdbcType=INTEGER},
+      </if>
+      <if test="y2 != null">
+        #{y2,jdbcType=INTEGER},
+      </if>
+      <if test="s1 != null">
+        #{s1,jdbcType=INTEGER},
+      </if>
+      <if test="s2 != null">
+        #{s2,jdbcType=INTEGER},
+      </if>
+      <if test="g1 != null">
+        #{g1,jdbcType=INTEGER},
+      </if>
+      <if test="g2 != null">
+        #{g2,jdbcType=INTEGER},
+      </if>
+      <if test="num1 != null">
+        #{num1,jdbcType=DOUBLE},
+      </if>
+      <if test="num2 != null">
+        #{num2,jdbcType=DOUBLE},
+      </if>
+      <if test="score1 != null">
+        #{score1,jdbcType=DOUBLE},
+      </if>
+      <if test="score2 != null">
+        #{score2,jdbcType=DOUBLE},
+      </if>
+      <if test="dis != null">
+        #{dis,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -8,13 +8,13 @@
             (dot_id, dot_shelves, dot_x, dot_y)
         VALUES (#{id}, #{shelves}, #{x}, #{y})
     </insert>
-    <select id="getDot" resultType="com.Lql.SRTP.entity.Dot">
+    <select id="getDot" resultType="com.Lql.SRTP.entity.SrtpDot">
         SELECT *
         FROM srtp_dot
         WHERE dot_x = #{x}
           and dot_y = #{y}
     </select>
-    <select id="getDis" resultType="com.Lql.SRTP.entity.DotDis">
+    <select id="getDis" resultType="com.Lql.SRTP.entity.SrtpDotDis">
         SELECT *
         FROM srtp_dotdis
         WHERE m1 = #{x1}
@@ -23,11 +23,11 @@
           and n2 = #{y2}
     </select>
     <insert id="addDis">
-        INSERT INTO srtp_dotdis
+        INSERT INTO srtp_dot_dis
             (m1, n1, m2, n2, dis)
         VALUES (#{m1}, #{n1}, #{m2}, #{n2}, #{dis})
     </insert>
-    <select id="getDotList" resultType="com.Lql.SRTP.entity.Dot">
+    <select id="getDotList" resultType="com.Lql.SRTP.entity.SrtpDot">
         SELECT *
         FROM srtp_dot
     </select>
@@ -40,7 +40,7 @@
         </set>
     </update>
     <update id="changeDotDis">
-        update srtp_dotdis
+        update srtp_dot_dis
         <set>
             <if test="m1==#{m1} and m2==#{m2} and n1==#{n1} and n2=#{n2}">
                 dis=#{dis}
@@ -48,13 +48,13 @@
         </set>
     </update>
     <insert id="addShelves">
-        INSERT INTO order_item
+        INSERT INTO srtp_order_item
             (x1, y1, x2, y2, s1, s2, g1, g2, num1, num2, score1, score2)
         VALUES (#{x1}, #{y1}, #{x2}, #{y2}, #{s1}, #{s2}, #{g1}, #{g2},
                 #{num1}, #{num2}, #{score1}, #{score2})
     </insert>
-    <select id="getShelvesDis" resultType="com.Lql.SRTP.entity.ShelvesDis">
+    <select id="getShelvesDis" resultType="com.Lql.SRTP.entity.SrtpShelvesDis">
         SELECT *
-        FROM srtp_shelvesdis
+        FROM srtp_shelves_dis
     </select>
 </mapper>

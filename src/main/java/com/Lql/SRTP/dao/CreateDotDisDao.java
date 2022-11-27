@@ -1,8 +1,8 @@
 package com.Lql.SRTP.dao;
 
-import com.Lql.SRTP.entity.Dot;
-import com.Lql.SRTP.entity.DotDis;
-import com.Lql.SRTP.entity.ShelvesDis;
+import com.Lql.SRTP.entity.SrtpDot;
+import com.Lql.SRTP.entity.SrtpDotDis;
+import com.Lql.SRTP.entity.SrtpShelvesDis;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -10,29 +10,29 @@ import java.util.List;
 @Mapper
 public interface CreateDotDisDao {
     //加点
-    Integer addDot(Dot dotNew);
+    Integer addDot(SrtpDot dotNew);
 
     //获取点
-    Dot getDot(Integer x, Integer y);
+    SrtpDot getDot(Integer x, Integer y);
 
     //修改点
-    Integer changeDot(Dot dotNew);
+    Integer changeDot(SrtpDot dotNew);
 
     //获取点阵
-    List<Dot> getDotList();
+    List<SrtpDot> getDotList();
 
     //距离加入矩阵
-    Integer addDis(DotDis dotDis);
+    Integer addDis(SrtpDotDis dotDis);
 
     //获取距离
-    DotDis getDis(DotDis dotDis);
+    SrtpDotDis getDis(SrtpDotDis dotDis);
 
     //修改距离
-    Integer changeDotDis(DotDis dotDisNew);
+    Integer changeDotDis(SrtpDotDis dotDisNew);
 
     //添加货架距离
-    Integer addShelves(ShelvesDis ShelvesDis);
+    Integer addShelves(SrtpShelvesDis ShelvesDis);
 
     //获取货架距离表
-    List<ShelvesDis> getShelvesDis();
+    List<SrtpShelvesDis> getShelvesDis();
 }

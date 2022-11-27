@@ -20,22 +20,22 @@ public class WarehouseLayoutController extends BaseController {
 
     @RequestMapping("/getallproduct")
     //获得所有货物列表
-    public JsonResult<List<Product>> getAllproduct() {
-        List<Product> data = WarehouseLayoutDao.getAllproduct();
-        return new JsonResult<List<Product>>(OK, data);
+    public JsonResult<List<SrtpProduct>> getAllproduct() {
+        List<SrtpProduct> data = WarehouseLayoutDao.getAllproduct();
+        return new JsonResult<List<SrtpProduct>>(OK, data);
     }
     @RequestMapping("/showincludepidorder")
     //展示含有pid的所有订单
-    public JsonResult<List<OrderItem>> showincludepidorder(Integer pid) {
-        List<OrderItem> data = WarehouseLayoutService.getorderitemByPid(pid);
-        return new JsonResult<List<OrderItem>>(OK, data);
+    public JsonResult<List<SrtpOrderItem>> showincludepidorder(Integer pid) {
+        List<SrtpOrderItem> data = WarehouseLayoutService.getorderitemByPid(pid);
+        return new JsonResult<List<SrtpOrderItem>>(OK, data);
     }
 
     @RequestMapping("/showsimiliaritynumbypid")
     //展示两个pid的相似度关系
-    public JsonResult<ShelvesDis> getsimilaritynum(Integer compare1, Integer compare2) {
-        ShelvesDis data = WarehouseLayoutService.getsimilaritynum(compare1, compare2);
-        return new JsonResult<ShelvesDis>(OK, data);
+    public JsonResult<SrtpShelvesDis> getsimilaritynum(Integer compare1, Integer compare2) {
+        SrtpShelvesDis data = WarehouseLayoutService.getsimilaritynum(compare1, compare2);
+        return new JsonResult<SrtpShelvesDis>(OK, data);
     }
 
     @RequestMapping("/showshelvequalitydegree")
@@ -46,8 +46,8 @@ public class WarehouseLayoutController extends BaseController {
     }
     @RequestMapping("/optimize")
     //模拟退火
-    public JsonResult<List<Shelves>> optimize() {
-        List<Shelves> data=WarehouseLayoutService.optimize();
-        return new JsonResult<List<Shelves>>(OK, data);
+    public JsonResult<List<SrtpShelves>> optimize() {
+        List<SrtpShelves> data=WarehouseLayoutService.optimize();
+        return new JsonResult<List<SrtpShelves>>(OK, data);
     }
 }
