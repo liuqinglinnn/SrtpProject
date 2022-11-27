@@ -1,7 +1,7 @@
 package com.Lql.SRTP.dao;
 
 import com.Lql.SRTP.entity.SrtpOrder;
-import org.apache.ibatis.annotations.Mapper;
+import com.Lql.SRTP.entity.vo.SrtpOrderDetailVo;import com.Lql.SRTP.entity.vo.SrtpOrderSortRateVo;import org.apache.ibatis.annotations.Mapper;import org.apache.ibatis.annotations.Param;import java.util.List;
 
 @Mapper
 public interface SrtpOrderMapper {
@@ -16,4 +16,10 @@ public interface SrtpOrderMapper {
     int updateByPrimaryKeySelective(SrtpOrder record);
 
     int updateByPrimaryKey(SrtpOrder record);
+
+    List<SrtpOrder> selectByAll(SrtpOrder srtpOrder);
+
+    List<SrtpOrderSortRateVo> selectOrderSortRate();
+
+    SrtpOrderDetailVo selectBaseOrderInfo(@Param("orderId") Integer orderId);
 }

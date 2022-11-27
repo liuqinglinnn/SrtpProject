@@ -1,10 +1,8 @@
 package com.Lql.SRTP.dao;
+import java.util.Date;
 
 import com.Lql.SRTP.entity.SrtpOrderItem;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
+import org.apache.ibatis.annotations.Mapper;import org.apache.ibatis.annotations.Param;import java.util.List;
 
 @Mapper
 public interface SrtpOrderItemMapper {
@@ -21,8 +19,12 @@ public interface SrtpOrderItemMapper {
     int updateByPrimaryKey(SrtpOrderItem record);
 
     Integer getSumByDays(@Param("type") Integer type,
-                          @Param("days") Integer days);
+                         @Param("days") Integer days);
 
     List<Integer> getSumListRecentDays(@Param("type") Integer type,
                                        @Param("days") Integer days);
+
+    List<SrtpOrderItem> selectByAll(SrtpOrderItem srtpOrderItem);
+
+
 }

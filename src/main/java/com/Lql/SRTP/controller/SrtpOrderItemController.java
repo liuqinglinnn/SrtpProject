@@ -1,5 +1,6 @@
 package com.Lql.SRTP.controller;
 
+import com.Lql.SRTP.entity.SrtpOrderItem;
 import com.Lql.SRTP.service.ISrtpOrderItemService;
 import com.Lql.SRTP.util.JsonResult;
 import io.swagger.annotations.Api;
@@ -54,6 +55,21 @@ public class SrtpOrderItemController {
             return JsonResult.success(sumDaysList);
         } catch (Exception e) {
             log.error("SrtpOrderItemController.getSumListRecentDays发生异常: ", e);
+            return JsonResult.failure(e.getMessage());
+        }
+    }
+
+    @GetMapping("/listOrderItemsByProductId")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "productId", value = "商品ID"),
+    })
+    @ApiOperation("根据商品ID获取订单变动")
+    public JsonResult<Object> listOrderItemsByProductId(@RequestParam Integer productId) {
+        try {
+            List<SrtpOrderItem> orderItems = orderItemService.listOrderItemsByProductId(productId);
+            return JsonResult.success(orderItems);
+        } catch (Exception e) {
+            log.error("SrtpOrderItemController.listOrderItemsByProductId发生异常: ", e);
             return JsonResult.failure(e.getMessage());
         }
     }

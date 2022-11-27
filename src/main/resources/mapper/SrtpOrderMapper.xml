@@ -6,14 +6,18 @@
     <!--@Table srtp_order-->
     <id column="oid" jdbcType="INTEGER" property="oid" />
     <result column="order_price" jdbcType="BIGINT" property="orderPrice" />
-    <result column="order_time" jdbcType="VARCHAR" property="orderTime" />
+    <result column="order_time" jdbcType="TIMESTAMP" property="orderTime" />
     <result column="order_reviewer" jdbcType="VARCHAR" property="orderReviewer" />
     <result column="order_sort" jdbcType="VARCHAR" property="orderSort" />
     <result column="order_note" jdbcType="VARCHAR" property="orderNote" />
+    <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
+    <result column="order_in_num" jdbcType="INTEGER" property="orderInNum" />
+    <result column="order_to_company" jdbcType="VARCHAR" property="orderToCompany" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    oid, order_price, order_time, order_reviewer, order_sort, order_note
+    oid, order_price, order_time, order_reviewer, order_sort, order_note, order_status, 
+    order_in_num, order_to_company
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -30,9 +34,11 @@
   <insert id="insert" keyColumn="oid" keyProperty="oid" parameterType="com.Lql.SRTP.entity.SrtpOrder" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into srtp_order (order_price, order_time, order_reviewer, 
-      order_sort, order_note)
-    values (#{orderPrice,jdbcType=BIGINT}, #{orderTime,jdbcType=VARCHAR}, #{orderReviewer,jdbcType=VARCHAR}, 
-      #{orderSort,jdbcType=VARCHAR}, #{orderNote,jdbcType=VARCHAR})
+      order_sort, order_note, order_status, 
+      order_in_num, order_to_company)
+    values (#{orderPrice,jdbcType=BIGINT}, #{orderTime,jdbcType=TIMESTAMP}, #{orderReviewer,jdbcType=VARCHAR}, 
+      #{orderSort,jdbcType=VARCHAR}, #{orderNote,jdbcType=VARCHAR}, #{orderStatus,jdbcType=INTEGER}, 
+      #{orderInNum,jdbcType=INTEGER}, #{orderToCompany,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="oid" keyProperty="oid" parameterType="com.Lql.SRTP.entity.SrtpOrder" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -53,13 +59,22 @@
       <if test="orderNote != null">
         order_note,
       </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="orderInNum != null">
+        order_in_num,
+      </if>
+      <if test="orderToCompany != null">
+        order_to_company,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="orderPrice != null">
         #{orderPrice,jdbcType=BIGINT},
       </if>
       <if test="orderTime != null">
-        #{orderTime,jdbcType=VARCHAR},
+        #{orderTime,jdbcType=TIMESTAMP},
       </if>
       <if test="orderReviewer != null">
         #{orderReviewer,jdbcType=VARCHAR},
@@ -69,6 +84,15 @@
       </if>
       <if test="orderNote != null">
         #{orderNote,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="orderInNum != null">
+        #{orderInNum,jdbcType=INTEGER},
+      </if>
+      <if test="orderToCompany != null">
+        #{orderToCompany,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -80,7 +104,7 @@
         order_price = #{orderPrice,jdbcType=BIGINT},
       </if>
       <if test="orderTime != null">
-        order_time = #{orderTime,jdbcType=VARCHAR},
+        order_time = #{orderTime,jdbcType=TIMESTAMP},
       </if>
       <if test="orderReviewer != null">
         order_reviewer = #{orderReviewer,jdbcType=VARCHAR},
@@ -91,6 +115,15 @@
       <if test="orderNote != null">
         order_note = #{orderNote,jdbcType=VARCHAR},
       </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="orderInNum != null">
+        order_in_num = #{orderInNum,jdbcType=INTEGER},
+      </if>
+      <if test="orderToCompany != null">
+        order_to_company = #{orderToCompany,jdbcType=VARCHAR},
+      </if>
     </set>
     where oid = #{oid,jdbcType=INTEGER}
   </update>
@@ -98,10 +131,57 @@
     <!--@mbg.generated-->
     update srtp_order
     set order_price = #{orderPrice,jdbcType=BIGINT},
-      order_time = #{orderTime,jdbcType=VARCHAR},
+      order_time = #{orderTime,jdbcType=TIMESTAMP},
       order_reviewer = #{orderReviewer,jdbcType=VARCHAR},
       order_sort = #{orderSort,jdbcType=VARCHAR},
-      order_note = #{orderNote,jdbcType=VARCHAR}
+      order_note = #{orderNote,jdbcType=VARCHAR},
+      order_status = #{orderStatus,jdbcType=INTEGER},
+      order_in_num = #{orderInNum,jdbcType=INTEGER},
+      order_to_company = #{orderToCompany,jdbcType=VARCHAR}
     where oid = #{oid,jdbcType=INTEGER}
   </update>
+
+  <select id="selectOrderSortRate" resultType="com.Lql.SRTP.entity.vo.SrtpOrderSortRateVo">
+    select order_sort,count(order_sort)/(select count(*) from srtp_order) rate from srtp_order
+    where order_sort is not null
+    group by order_sort
+  </select>
+
+<!--auto generated by MybatisCodeHelper on 2022-11-27-->
+  <select id="selectByAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from srtp_order
+    <where>
+      <if test="oid != null">
+        and oid=#{oid,jdbcType=INTEGER}
+      </if>
+      <if test="orderPrice != null">
+        and order_price=#{orderPrice,jdbcType=BIGINT}
+      </if>
+      <if test="orderTime != null">
+        and order_time=#{orderTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="orderReviewer != null">
+        and order_reviewer=#{orderReviewer,jdbcType=VARCHAR}
+      </if>
+      <if test="orderSort != null">
+        and order_sort=#{orderSort,jdbcType=VARCHAR}
+      </if>
+      <if test="orderNote != null">
+        and order_note=#{orderNote,jdbcType=VARCHAR}
+      </if>
+      <if test="orderStatus != null">
+        and order_status=#{orderStatus,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectBaseOrderInfo" resultType="com.Lql.SRTP.entity.vo.SrtpOrderDetailVo">
+    select order_to_company company_name, order_in_num order_in_num, order_status order_status, pcreatetime start_time, pmodifiedtime end_time, srtp_order.oid order_id, pmodifieduser pick_name, pmodifieduserphone pick_phone
+    from
+      srtp_order join srtp_order_item on srtp_order.oid = srtp_order_item.oid
+    where srtp_order.oid = #{orderId,jdbcType=INTEGER}
+    group by order_id
+  </select>
 </mapper>

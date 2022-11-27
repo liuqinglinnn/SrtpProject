@@ -1,5 +1,6 @@
 package com.Lql.SRTP.service;
 
+import com.Lql.SRTP.entity.SrtpOrderItem;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -25,4 +26,11 @@ public interface ISrtpOrderItemService {
      * @return 总和
      */
     List<Integer> getSumListRecentDays(Integer type, Integer days);
+
+    /**
+     * 根据商品ID获取订单变动列表
+     * @param productId
+     * @return
+     */
+    List<SrtpOrderItem> listOrderItemsByProductId(Integer productId);
 }

@@ -1,7 +1,9 @@
 package com.Lql.SRTP.dao;
+import java.util.List;
 
 import com.Lql.SRTP.entity.SrtpProduct;
-import org.apache.ibatis.annotations.Mapper;
+import com.Lql.SRTP.entity.vo.SrtpProductCardVo;import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface SrtpProductMapper {
@@ -16,4 +18,11 @@ public interface SrtpProductMapper {
     int updateByPrimaryKeySelective(SrtpProduct record);
 
     int updateByPrimaryKey(SrtpProduct record);
+
+    List<SrtpProduct> selectByAll(SrtpProduct srtpProduct);
+
+    List<SrtpProduct> selectByProductName(@Param("name") String name);
+
+    SrtpProductCardVo selectProductCardInfo(@Param("productId")Integer productId,
+                                            @Param("orderId") Integer orderId);
 }

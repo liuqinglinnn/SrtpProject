@@ -12,58 +12,63 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SrtpProduct implements Serializable {
     /**
-    * 商品id
-    */
+     * 商品id
+     */
     private Integer id;
 
     /**
-    * 所属公司
-    */
+     * 所属公司
+     */
     private String company;
 
     /**
-    * 商品名
-    */
+     * 商品名
+     */
     private String title;
 
     /**
-    * 商品价格
-    */
+     * 商品描述
+     */
+    private String description;
+
+    /**
+     * 商品价格
+     */
     private Double price;
 
     /**
-    * 商品库存数量
-    */
+     * 商品库存数量
+     */
     private Integer num;
 
     /**
-    * 商品图片
-    */
+     * 商品图片
+     */
     private String image;
 
     /**
-    * 商品状态 1：上架 2：下架 3：删除
-    */
+     * 商品状态 1：上架 2：下架 3：删除
+     */
     private Integer status;
 
     /**
-    * 商品所在货架id
-    */
+     * 商品所在货架id
+     */
     private Integer sid;
 
     /**
-    * 商品优先级
-    */
+     * 商品优先级
+     */
     private Integer priority;
 
     /**
-    * 周转量
-    */
+     * 周转量
+     */
     private Double iton;
 
     /**
-    * 周转率
-    */
+     * 周转率
+     */
     private Double itom;
 
     private static final long serialVersionUID = 1L;

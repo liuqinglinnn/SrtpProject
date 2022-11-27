@@ -1,6 +1,7 @@
 package com.Lql.SRTP.service.Impl;
 
 import com.Lql.SRTP.dao.SrtpOrderItemMapper;
+import com.Lql.SRTP.entity.SrtpOrderItem;
 import com.Lql.SRTP.enums.OrderItemTypeEnum;
 import com.Lql.SRTP.service.ISrtpOrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,11 @@ public class SrtpOrderItemServiceImpl implements ISrtpOrderItemService {
 
         // 传参, 从数据库中取值
         return orderItemMapper.getSumListRecentDays(typeEnum.getCode(), days);
+    }
+
+    @Override
+    public List<SrtpOrderItem> listOrderItemsByProductId(Integer productId) {
+        return orderItemMapper.selectByAll(SrtpOrderItem.builder().pid(productId).build());
     }
 
     private OrderItemTypeEnum checkType(Integer type) {
