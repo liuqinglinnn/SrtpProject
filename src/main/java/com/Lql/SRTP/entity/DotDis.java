@@ -3,7 +3,7 @@ package com.Lql.SRTP.entity;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Dotdis implements Serializable {
+public class DotDis implements Serializable {
     private Integer m1;
     private Integer n1;
     private Integer m2;
@@ -12,7 +12,7 @@ public class Dotdis implements Serializable {
 
     @Override
     public String toString() {
-        return "Dotdis{" +
+        return "DotDis{" +
                 "m1=" + m1 +
                 ", n1=" + n1 +
                 ", m2=" + m2 +
@@ -25,7 +25,7 @@ public class Dotdis implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Dotdis dotdis = (Dotdis) o;
+        DotDis dotdis = (DotDis) o;
         return Objects.equals(m1, dotdis.m1) && Objects.equals(n1, dotdis.n1) && Objects.equals(m2, dotdis.m2) && Objects.equals(n2, dotdis.n2) && Objects.equals(dis, dotdis.dis);
     }
 
@@ -74,7 +74,7 @@ public class Dotdis implements Serializable {
         this.dis = dis;
     }
 
-    public Dotdis(Integer m1, Integer n1, Integer m2, Integer n2, Integer dis) {
+    public DotDis(Integer m1, Integer n1, Integer m2, Integer n2, Integer dis) {
         this.m1 = m1;
         this.n1 = n1;
         this.m2 = m2;

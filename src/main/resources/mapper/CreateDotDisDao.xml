@@ -2,19 +2,19 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.Lql.SRTP.dao.CreatedotdisDao">
-    <insert id="adddot" keyProperty="id" useGeneratedKeys="true">
+<mapper namespace="com.Lql.SRTP.dao.CreateDotDisDao">
+    <insert id="addDot" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO srtp_dot
             (dot_id, dot_shelves, dot_x, dot_y)
         VALUES (#{id}, #{shelves}, #{x}, #{y})
     </insert>
-    <select id="getdot" resultType="com.Lql.SRTP.entity.Dot">
+    <select id="getDot" resultType="com.Lql.SRTP.entity.Dot">
         SELECT *
         FROM srtp_dot
         WHERE dot_x = #{x}
           and dot_y = #{y}
     </select>
-    <select id="getdis" resultType="com.Lql.SRTP.entity.Dotdis">
+    <select id="getDis" resultType="com.Lql.SRTP.entity.DotDis">
         SELECT *
         FROM srtp_dotdis
         WHERE m1 = #{x1}
@@ -22,16 +22,16 @@
           and m2 = #{x2}
           and n2 = #{y2}
     </select>
-    <insert id="adddis">
+    <insert id="addDis">
         INSERT INTO srtp_dotdis
             (m1, n1, m2, n2, dis)
         VALUES (#{m1}, #{n1}, #{m2}, #{n2}, #{dis})
     </insert>
-    <select id="getdotlist" resultType="com.Lql.SRTP.entity.Dot">
+    <select id="getDotList" resultType="com.Lql.SRTP.entity.Dot">
         SELECT *
         FROM srtp_dot
     </select>
-    <update id="changedot">
+    <update id="changeDot">
         update srtp_dot
         <set>
             <if test="x==#{x} and y==#{y}">
@@ -39,7 +39,7 @@
             </if>
         </set>
     </update>
-    <update id="changedotdis">
+    <update id="changeDotDis">
         update srtp_dotdis
         <set>
             <if test="m1==#{m1} and m2==#{m2} and n1==#{n1} and n2=#{n2}">
@@ -47,13 +47,13 @@
             </if>
         </set>
     </update>
-    <insert id="addshelves">
+    <insert id="addShelves">
         INSERT INTO order_item
             (x1, y1, x2, y2, s1, s2, g1, g2, num1, num2, score1, score2)
         VALUES (#{x1}, #{y1}, #{x2}, #{y2}, #{s1}, #{s2}, #{g1}, #{g2},
                 #{num1}, #{num2}, #{score1}, #{score2})
     </insert>
-    <select id="getshelvesdis" resultType="com.Lql.SRTP.entity.ShelvesDis">
+    <select id="getShelvesDis" resultType="com.Lql.SRTP.entity.ShelvesDis">
         SELECT *
         FROM srtp_shelvesdis
     </select>

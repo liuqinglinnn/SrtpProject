@@ -3,7 +3,7 @@ package com.Lql.SRTP.entity;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Orderitem implements Serializable {
+public class OrderItem implements Serializable {
     private Integer id;
     private Integer oid;
     private Integer pid;
@@ -21,7 +21,7 @@ public class Orderitem implements Serializable {
 
     @Override
     public String toString() {
-        return "Orderitem{" +
+        return "OrderItem{" +
                 "id=" + id +
                 ", oid=" + oid +
                 ", pid=" + pid +
@@ -43,7 +43,7 @@ public class Orderitem implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Orderitem orderitem = (Orderitem) o;
+        OrderItem orderitem = (OrderItem) o;
         return Objects.equals(id, orderitem.id) && Objects.equals(oid, orderitem.oid) && Objects.equals(pid, orderitem.pid) && Objects.equals(pname, orderitem.pname) && Objects.equals(pimage, orderitem.pimage) && Objects.equals(pprice, orderitem.pprice) && Objects.equals(pnum, orderitem.pnum) && Objects.equals(ptotalprice, orderitem.ptotalprice) && Objects.equals(pcreatetime, orderitem.pcreatetime) && Objects.equals(pmodifiedtime, orderitem.pmodifiedtime) && Objects.equals(pcreateruser, orderitem.pcreateruser) && Objects.equals(pmodifieduser, orderitem.pmodifieduser) && Objects.equals(pstate, orderitem.pstate) && Objects.equals(prest, orderitem.prest);
     }
 
@@ -164,7 +164,7 @@ public class Orderitem implements Serializable {
         this.prest = prest;
     }
 
-    public Orderitem(Integer id, Integer oid, Integer pid, String pname, String pimage, Long pprice, Integer pnum, Long ptotalprice, String pcreatetime, String pmodifiedtime, String pcreateruser, String pmodifieduser, Integer pstate, Integer prest) {
+    public OrderItem(Integer id, Integer oid, Integer pid, String pname, String pimage, Long pprice, Integer pnum, Long ptotalprice, String pcreatetime, String pmodifiedtime, String pcreateruser, String pmodifieduser, Integer pstate, Integer prest) {
         this.id = id;
         this.oid = oid;
         this.pid = pid;

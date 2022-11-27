@@ -2,7 +2,7 @@ package com.Lql.SRTP.util;
 
 import java.io.Serializable;
 
-public class Jsonresult<E> implements Serializable {
+public class JsonResult<E> implements Serializable {
     /**
      * 状态码
      */
@@ -16,11 +16,11 @@ public class Jsonresult<E> implements Serializable {
      */
     private E data;
 
-    public Jsonresult() {
+    public JsonResult() {
         super();
     }
 
-    public Jsonresult(Integer state) {
+    public JsonResult(Integer state) {
         super();
         this.state = state;
     }
@@ -28,13 +28,13 @@ public class Jsonresult<E> implements Serializable {
     /**
      * 出现异常时调用
      */
-    public Jsonresult(Throwable e) {
+    public JsonResult(Throwable e) {
         super();
         // 获取异常对象中的异常信息
         this.message = e.getMessage();
     }
 
-    public Jsonresult(Integer state, E data) {
+    public JsonResult(Integer state, E data) {
         super();
         this.state = state;
         this.data = data;

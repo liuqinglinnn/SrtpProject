@@ -3,7 +3,7 @@ package com.Lql.SRTP.entity;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Housebase implements Serializable {
+public class HouseBase implements Serializable {
     Integer id;
     String name;
     String place;
@@ -17,7 +17,7 @@ public class Housebase implements Serializable {
 
     @Override
     public String toString() {
-        return "Housebase{" +
+        return "HouseBase{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", place='" + place + '\'' +
@@ -35,7 +35,7 @@ public class Housebase implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Housebase housebase = (Housebase) o;
+        HouseBase housebase = (HouseBase) o;
         return Objects.equals(id, housebase.id) && Objects.equals(name, housebase.name) && Objects.equals(place, housebase.place) && Objects.equals(iton, housebase.iton) && Objects.equals(itom, housebase.itom) && Objects.equals(num1, housebase.num1) && Objects.equals(num2, housebase.num2) && Objects.equals(num3, housebase.num3) && Objects.equals(num4, housebase.num4) && Objects.equals(num5, housebase.num5);
     }
 
@@ -124,7 +124,7 @@ public class Housebase implements Serializable {
         this.num5 = num5;
     }
 
-    public Housebase(Integer id, String name, String place, Double iton, Double itom, Double num1, Double num2, Double num3, Double num4, Double num5) {
+    public HouseBase(Integer id, String name, String place, Double iton, Double itom, Double num1, Double num2, Double num3, Double num4, Double num5) {
         this.id = id;
         this.name = name;
         this.place = place;

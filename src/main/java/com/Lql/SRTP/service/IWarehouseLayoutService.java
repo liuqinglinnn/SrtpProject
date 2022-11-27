@@ -1,6 +1,6 @@
 package com.Lql.SRTP.service;
 
-import com.Lql.SRTP.entity.Orderitem;
+import com.Lql.SRTP.entity.OrderItem;
 import com.Lql.SRTP.entity.Shelves;
 import com.Lql.SRTP.entity.ShelvesDis;
 
@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IWarehouseLayoutService {
     //根据货物id找到订单中订购的货物
-    List<Orderitem> getorderitemByPid(Integer pid);
+    List<OrderItem> getorderitemByPid(Integer pid);
 
     //计算x的周转量，周转率
     void computito(Integer pid, String starttime, String endtime);

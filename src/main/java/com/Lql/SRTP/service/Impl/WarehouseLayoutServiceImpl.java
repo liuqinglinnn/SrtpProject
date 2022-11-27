@@ -1,6 +1,6 @@
 package com.Lql.SRTP.service.Impl;
 
-import com.Lql.SRTP.dao.CreatedotdisDao;
+import com.Lql.SRTP.dao.CreateDotDisDao;
 import com.Lql.SRTP.dao.WarehouseLayoutDao;
 import com.Lql.SRTP.entity.*;
 import com.Lql.SRTP.service.IWarehouseLayoutService;
@@ -18,11 +18,11 @@ public class WarehouseLayoutServiceImpl implements IWarehouseLayoutService {
     @Autowired
     private WarehouseLayoutDao WarehouseLayoutMapper;
  @Autowired
-    private CreatedotdisDao CreatedotdisMapper;
+    private CreateDotDisDao CreatedotdisMapper;
 
     @Override
-    public List<Orderitem> getorderitemByPid(Integer pid) {
-        List<Orderitem> list = WarehouseLayoutMapper.getorderitemByPid(pid);
+    public List<OrderItem> getorderitemByPid(Integer pid) {
+        List<OrderItem> list = WarehouseLayoutMapper.getorderitemByPid(pid);
         //无香烟数据的异常
         if (list == null) {
             throw new OidNotFoundException("香烟数据不存在");
@@ -33,10 +33,10 @@ public class WarehouseLayoutServiceImpl implements IWarehouseLayoutService {
     //计算x的周转量，周转率,存入数据库
     @Override
     public void computito(Integer pid, String starttime, String endtime) {
-        List<Orderitem> orderlist = getorderitemByPid(pid);
+        List<OrderItem> orderlist = getorderitemByPid(pid);
         //获取一个季度初末库存
-        Orderitem startitem = WarehouseLayoutMapper.gettimerest(starttime, pid);
-        Orderitem enditem = WarehouseLayoutMapper.gettimerest(endtime, pid);
+        OrderItem startitem = WarehouseLayoutMapper.gettimerest(starttime, pid);
+        OrderItem enditem = WarehouseLayoutMapper.gettimerest(endtime, pid);
         Integer startnum = startitem.getPrest();
         Integer endnum = enditem.getPrest();
         Double avenum = (double) (startnum + endnum) / 2;
@@ -52,14 +52,14 @@ public class WarehouseLayoutServiceImpl implements IWarehouseLayoutService {
         //存入数据库
         Double itom = iton * WarehouseLayoutMapper.getproductByPid(pid).getPrice();
         WarehouseLayoutMapper.changeproduct(iton, itom, pid);
-        Housebase housebase = WarehouseLayoutMapper.gethousebase(1);
+        HouseBase housebase = WarehouseLayoutMapper.gethousebase(1);
     }
 
     //两个货物的相关性，输入两者货物id，获取订单中的数量，计算相关性，存入数据库，返回结果
     @Override
     public ShelvesDis getsimilaritynum(Integer compare1, Integer compare2) {
         //获取共同出现的itemlist
-        List<Orderitem> itemlist = WarehouseLayoutMapper.gettogetheritem(compare1, compare2);
+        List<OrderItem> itemlist = WarehouseLayoutMapper.gettogetheritem(compare1, compare2);
         Double num = 0.0;
         Double k = 1.0;//系数
         for (int i = 0; i < itemlist.size(); i = i + 2) {
@@ -84,7 +84,7 @@ public class WarehouseLayoutServiceImpl implements IWarehouseLayoutService {
         else {
             Product product = WarehouseLayoutMapper.getproductByPid(shelve.getPid());
             List<Product> productlist = WarehouseLayoutMapper.getAllproduct();
-            Housebase house = WarehouseLayoutMapper.gethousebase(1);
+            HouseBase house = WarehouseLayoutMapper.gethousebase(1);
             double score, score1 = 0.0, score2 = 0.0;
             double k1 = 1.0, k2 = 1.0, k3 = 1.0, k4 = 1.0, k5 = 1.0, c1 = 1.0, c2 = 1.0;
             Integer chux = 0, chuy = 0, rux = 100, ruy = 100;
@@ -92,9 +92,9 @@ public class WarehouseLayoutServiceImpl implements IWarehouseLayoutService {
                 ShelvesDis tem = getsimilaritynum(product.getId(), productlist.get(i).getId());
                 score1 += k1 * tem.getNum1() / (k2 * tem.getDis() + c1);
             }
-            Dotdis temdis1 = new Dotdis(chux, chuy, shelve.getSx2(), shelve.getSy2(), null);
-            Dotdis temdis2 = new Dotdis(rux, ruy, shelve.getSx2(), shelve.getSy2(), null);
-            Integer dischurusum = CreatedotdisMapper.getdis(temdis1).getDis() + CreatedotdisMapper.getdis(temdis2).getDis();
+            DotDis temdis1 = new DotDis(chux, chuy, shelve.getSx2(), shelve.getSy2(), null);
+            DotDis temdis2 = new DotDis(rux, ruy, shelve.getSx2(), shelve.getSy2(), null);
+            Integer dischurusum = CreatedotdisMapper.getDis(temdis1).getDis() + CreatedotdisMapper.getDis(temdis2).getDis();
             score2 = score2 + k3 * product.getIton() / house.getIton() + k4 * product.getItom() / house.getItom();
             score2 = score2 / (k5 * dischurusum + c2);
             score = score1 + score2;
@@ -117,7 +117,7 @@ public class WarehouseLayoutServiceImpl implements IWarehouseLayoutService {
     @Override
     public Double getoptimizequalitydegree(List<Shelves> newshelveslist) {
         Double scoresum = 0.0;
-        Housebase house = WarehouseLayoutMapper.gethousebase(1);
+        HouseBase house = WarehouseLayoutMapper.gethousebase(1);
         //循环所有x
         for (int i = 0; i < newshelveslist.size(); i++) {
             Integer sidi = newshelveslist.get(i).getId();
@@ -134,15 +134,15 @@ public class WarehouseLayoutServiceImpl implements IWarehouseLayoutService {
                 double k1 = 1.0, k2 = 1.0, k3 = 1.0, k4 = 1.0, k5 = 1.0, c1 = 1.0, c2 = 1.0;
                 Integer chux = 0, chuy = 0, rux = 100, ruy = 100;
                 Product productnow = WarehouseLayoutMapper.getproductByPid(shelvesnow.getPid());
-                Dotdis temdis1 = new Dotdis(chux, chuy, shelvesnow.getSx2(), shelvesnow.getSy2(), null);
-                Dotdis temdis2 = new Dotdis(rux, ruy, shelvesnow.getSx2(), shelvesnow.getSy2(), null);
+                DotDis temdis1 = new DotDis(chux, chuy, shelvesnow.getSx2(), shelvesnow.getSy2(), null);
+                DotDis temdis2 = new DotDis(rux, ruy, shelvesnow.getSx2(), shelvesnow.getSy2(), null);
                 for (int j = 0; j < newshelveslist.size(); j++) {
                     Integer sidj = newshelveslist.get(j).getId();
                     ShelvesDis tem =WarehouseLayoutMapper.getshelvesdis(sidi,sidj);
                     score1 += k1 * tem.getNum1() / (k2 * tem.getDis() + c1);
                 }
                 //获取score2
-                Integer dischurusum = CreatedotdisMapper.getdis(temdis1).getDis() + CreatedotdisMapper.getdis(temdis2).getDis();
+                Integer dischurusum = CreatedotdisMapper.getDis(temdis1).getDis() + CreatedotdisMapper.getDis(temdis2).getDis();
                 score2 = score2 + k3 * productnow.getIton() / house.getIton() + k4 * productnow.getItom() / house.getItom();
                 score2 = score2 / (k5 * dischurusum + c2);
                 score = score1 + score2;
