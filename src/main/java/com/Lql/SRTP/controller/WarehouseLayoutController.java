@@ -3,7 +3,7 @@ package com.Lql.SRTP.controller;
 import com.Lql.SRTP.dao.WarehouseLayoutDao;
 import com.Lql.SRTP.entity.*;
 import com.Lql.SRTP.service.IWarehouseLayoutService;
-import com.Lql.SRTP.util.Jsonresult;
+import com.Lql.SRTP.util.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,36 +18,36 @@ public class WarehouseLayoutController extends BaseController {
     @Autowired
     private WarehouseLayoutDao WarehouseLayoutDao;
 
-    @RequestMapping("getallproduct")
+    @RequestMapping("/getallproduct")
     //获得所有货物列表
-    public Jsonresult<List<Product>> getAllproduct() {
-        List<Product> data = WarehouseLayoutDao.getAllproduct();
-        return new Jsonresult<List<Product>>(OK, data);
+    public JsonResult<List<SrtpProduct>> getAllproduct() {
+        List<SrtpProduct> data = WarehouseLayoutDao.getAllproduct();
+        return new JsonResult<List<SrtpProduct>>(OK, data);
     }
-    @RequestMapping("showincludepidorder")
+    @RequestMapping("/showincludepidorder")
     //展示含有pid的所有订单
-    public Jsonresult<List<Orderitem>> showincludepidorder(Integer pid) {
-        List<Orderitem> data = WarehouseLayoutService.getorderitemByPid(pid);
-        return new Jsonresult<List<Orderitem>>(OK, data);
+    public JsonResult<List<SrtpOrderItem>> showincludepidorder(Integer pid) {
+        List<SrtpOrderItem> data = WarehouseLayoutService.getorderitemByPid(pid);
+        return new JsonResult<List<SrtpOrderItem>>(OK, data);
     }
 
-    @RequestMapping("showsimiliaritynumbypid")
+    @RequestMapping("/showsimiliaritynumbypid")
     //展示两个pid的相似度关系
-    public Jsonresult<ShelvesDis> getsimilaritynum(Integer compare1, Integer compare2) {
-        ShelvesDis data = WarehouseLayoutService.getsimilaritynum(compare1, compare2);
-        return new Jsonresult<ShelvesDis>(OK, data);
+    public JsonResult<SrtpShelvesDis> getsimilaritynum(Integer compare1, Integer compare2) {
+        SrtpShelvesDis data = WarehouseLayoutService.getsimilaritynum(compare1, compare2);
+        return new JsonResult<SrtpShelvesDis>(OK, data);
     }
 
-    @RequestMapping("showshelvequalitydegree")
+    @RequestMapping("/showshelvequalitydegree")
     //展示货架的总好坏程度
-    public Jsonresult<Double> showshelvequalitydegree() {
+    public JsonResult<Double> showshelvequalitydegree() {
         Double data = WarehouseLayoutService.scoresum();
-        return new Jsonresult<Double>(OK, data);
+        return new JsonResult<Double>(OK, data);
     }
-    @RequestMapping("optimize")
+    @RequestMapping("/optimize")
     //模拟退火
-    public Jsonresult<List<Shelves>> optimize() {
-        List<Shelves> data=WarehouseLayoutService.optimize();
-        return new Jsonresult<List<Shelves>>(OK, data);
+    public JsonResult<List<SrtpShelves>> optimize() {
+        List<SrtpShelves> data=WarehouseLayoutService.optimize();
+        return new JsonResult<List<SrtpShelves>>(OK, data);
     }
 }

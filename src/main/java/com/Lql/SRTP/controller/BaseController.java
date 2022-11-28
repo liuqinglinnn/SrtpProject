@@ -1,15 +1,15 @@
 package com.Lql.SRTP.controller;
 
 import com.Lql.SRTP.service.ex.*;
-import com.Lql.SRTP.util.Jsonresult;
+import com.Lql.SRTP.util.JsonResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 public class BaseController {
     public static final int OK = 200;
 
     @ExceptionHandler(ServiceException.class)
-    public Jsonresult<Void> handleException(Throwable e) {
-        Jsonresult<Void> result = new Jsonresult<Void>(e);
+    public JsonResult<Void> handleException(Throwable e) {
+        JsonResult<Void> result = new JsonResult<Void>(e);
         if (e instanceof OidNotFoundException) {
             result.setState(4000);
         } else if (e instanceof BetterResultNotFoundException) {

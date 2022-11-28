@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Lql.SRTP.dao.SrtpDotDisMapper">
+  <resultMap id="BaseResultMap" type="com.Lql.SRTP.entity.SrtpDotDis">
+    <!--@mbg.generated-->
+    <!--@Table srtp_dot_dis-->
+    <result column="m1" jdbcType="INTEGER" property="m1" />
+    <result column="n1" jdbcType="INTEGER" property="n1" />
+    <result column="m2" jdbcType="INTEGER" property="m2" />
+    <result column="n2" jdbcType="INTEGER" property="n2" />
+    <result column="dis" jdbcType="INTEGER" property="dis" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    m1, n1, m2, n2, dis
+  </sql>
+  <insert id="insert" parameterType="com.Lql.SRTP.entity.SrtpDotDis">
+    <!--@mbg.generated-->
+    insert into srtp_dot_dis (m1, n1, m2, n2, 
+      dis)
+    values (#{m1,jdbcType=INTEGER}, #{n1,jdbcType=INTEGER}, #{m2,jdbcType=INTEGER}, #{n2,jdbcType=INTEGER}, 
+      #{dis,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.Lql.SRTP.entity.SrtpDotDis">
+    <!--@mbg.generated-->
+    insert into srtp_dot_dis
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="m1 != null">
+        m1,
+      </if>
+      <if test="n1 != null">
+        n1,
+      </if>
+      <if test="m2 != null">
+        m2,
+      </if>
+      <if test="n2 != null">
+        n2,
+      </if>
+      <if test="dis != null">
+        dis,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="m1 != null">
+        #{m1,jdbcType=INTEGER},
+      </if>
+      <if test="n1 != null">
+        #{n1,jdbcType=INTEGER},
+      </if>
+      <if test="m2 != null">
+        #{m2,jdbcType=INTEGER},
+      </if>
+      <if test="n2 != null">
+        #{n2,jdbcType=INTEGER},
+      </if>
+      <if test="dis != null">
+        #{dis,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Lql.SRTP.dao.SrtpHouseBaseMapper">
+  <resultMap id="BaseResultMap" type="com.Lql.SRTP.entity.SrtpHouseBase">
+    <!--@mbg.generated-->
+    <!--@Table srtp_house_base-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="place" jdbcType="VARCHAR" property="place" />
+    <result column="iton" jdbcType="DOUBLE" property="iton" />
+    <result column="itom" jdbcType="DOUBLE" property="itom" />
+    <result column="num1" jdbcType="DOUBLE" property="num1" />
+    <result column="num2" jdbcType="DOUBLE" property="num2" />
+    <result column="num3" jdbcType="DOUBLE" property="num3" />
+    <result column="num4" jdbcType="DOUBLE" property="num4" />
+    <result column="num5" jdbcType="DOUBLE" property="num5" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `name`, place, iton, itom, num1, num2, num3, num4, num5
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from srtp_house_base
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from srtp_house_base
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.Lql.SRTP.entity.SrtpHouseBase">
+    <!--@mbg.generated-->
+    insert into srtp_house_base (id, `name`, place, 
+      iton, itom, num1, num2, 
+      num3, num4, num5)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{place,jdbcType=VARCHAR}, 
+      #{iton,jdbcType=DOUBLE}, #{itom,jdbcType=DOUBLE}, #{num1,jdbcType=DOUBLE}, #{num2,jdbcType=DOUBLE}, 
+      #{num3,jdbcType=DOUBLE}, #{num4,jdbcType=DOUBLE}, #{num5,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.Lql.SRTP.entity.SrtpHouseBase">
+    <!--@mbg.generated-->
+    insert into srtp_house_base
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="place != null">
+        place,
+      </if>
+      <if test="iton != null">
+        iton,
+      </if>
+      <if test="itom != null">
+        itom,
+      </if>
+      <if test="num1 != null">
+        num1,
+      </if>
+      <if test="num2 != null">
+        num2,
+      </if>
+      <if test="num3 != null">
+        num3,
+      </if>
+      <if test="num4 != null">
+        num4,
+      </if>
+      <if test="num5 != null">
+        num5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="place != null">
+        #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="iton != null">
+        #{iton,jdbcType=DOUBLE},
+      </if>
+      <if test="itom != null">
+        #{itom,jdbcType=DOUBLE},
+      </if>
+      <if test="num1 != null">
+        #{num1,jdbcType=DOUBLE},
+      </if>
+      <if test="num2 != null">
+        #{num2,jdbcType=DOUBLE},
+      </if>
+      <if test="num3 != null">
+        #{num3,jdbcType=DOUBLE},
+      </if>
+      <if test="num4 != null">
+        #{num4,jdbcType=DOUBLE},
+      </if>
+      <if test="num5 != null">
+        #{num5,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.Lql.SRTP.entity.SrtpHouseBase">
+    <!--@mbg.generated-->
+    update srtp_house_base
+    <set>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="place != null">
+        place = #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="iton != null">
+        iton = #{iton,jdbcType=DOUBLE},
+      </if>
+      <if test="itom != null">
+        itom = #{itom,jdbcType=DOUBLE},
+      </if>
+      <if test="num1 != null">
+        num1 = #{num1,jdbcType=DOUBLE},
+      </if>
+      <if test="num2 != null">
+        num2 = #{num2,jdbcType=DOUBLE},
+      </if>
+      <if test="num3 != null">
+        num3 = #{num3,jdbcType=DOUBLE},
+      </if>
+      <if test="num4 != null">
+        num4 = #{num4,jdbcType=DOUBLE},
+      </if>
+      <if test="num5 != null">
+        num5 = #{num5,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.Lql.SRTP.entity.SrtpHouseBase">
+    <!--@mbg.generated-->
+    update srtp_house_base
+    set `name` = #{name,jdbcType=VARCHAR},
+      place = #{place,jdbcType=VARCHAR},
+      iton = #{iton,jdbcType=DOUBLE},
+      itom = #{itom,jdbcType=DOUBLE},
+      num1 = #{num1,jdbcType=DOUBLE},
+      num2 = #{num2,jdbcType=DOUBLE},
+      num3 = #{num3,jdbcType=DOUBLE},
+      num4 = #{num4,jdbcType=DOUBLE},
+      num5 = #{num5,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

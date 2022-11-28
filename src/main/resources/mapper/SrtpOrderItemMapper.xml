@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Lql.SRTP.dao.SrtpOrderItemMapper">
+  <resultMap id="BaseResultMap" type="com.Lql.SRTP.entity.SrtpOrderItem">
+    <!--@mbg.generated-->
+    <!--@Table srtp_order_item-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="oid" jdbcType="INTEGER" property="oid" />
+    <result column="pid" jdbcType="INTEGER" property="pid" />
+    <result column="pname" jdbcType="VARCHAR" property="pname" />
+    <result column="pimage" jdbcType="VARCHAR" property="pimage" />
+    <result column="pprice" jdbcType="DOUBLE" property="pprice" />
+    <result column="pnum" jdbcType="INTEGER" property="pnum" />
+    <result column="ptotalprice" jdbcType="DOUBLE" property="ptotalprice" />
+    <result column="pcreatetime" jdbcType="TIMESTAMP" property="pcreatetime" />
+    <result column="pmodifiedtime" jdbcType="TIMESTAMP" property="pmodifiedtime" />
+    <result column="pcreateruser" jdbcType="VARCHAR" property="pcreateruser" />
+    <result column="pmodifieduser" jdbcType="VARCHAR" property="pmodifieduser" />
+    <result column="pstate" jdbcType="INTEGER" property="pstate" />
+    <result column="prest" jdbcType="INTEGER" property="prest" />
+    <result column="pcreateuserphone" jdbcType="VARCHAR" property="pcreateuserphone" />
+    <result column="pmodifieduserphone" jdbcType="VARCHAR" property="pmodifieduserphone" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, oid, pid, pname, pimage, pprice, pnum, ptotalprice, pcreatetime, pmodifiedtime, 
+    pcreateruser, pmodifieduser, pstate, prest, pcreateuserphone, pmodifieduserphone
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from srtp_order_item
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from srtp_order_item
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.Lql.SRTP.entity.SrtpOrderItem" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into srtp_order_item (oid, pid, pname, 
+      pimage, pprice, pnum, 
+      ptotalprice, pcreatetime, pmodifiedtime, 
+      pcreateruser, pmodifieduser, pstate, 
+      prest, pcreateuserphone, pmodifieduserphone
+      )
+    values (#{oid,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{pname,jdbcType=VARCHAR}, 
+      #{pimage,jdbcType=VARCHAR}, #{pprice,jdbcType=DOUBLE}, #{pnum,jdbcType=INTEGER}, 
+      #{ptotalprice,jdbcType=DOUBLE}, #{pcreatetime,jdbcType=TIMESTAMP}, #{pmodifiedtime,jdbcType=TIMESTAMP}, 
+      #{pcreateruser,jdbcType=VARCHAR}, #{pmodifieduser,jdbcType=VARCHAR}, #{pstate,jdbcType=INTEGER}, 
+      #{prest,jdbcType=INTEGER}, #{pcreateuserphone,jdbcType=VARCHAR}, #{pmodifieduserphone,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.Lql.SRTP.entity.SrtpOrderItem" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into srtp_order_item
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="oid != null">
+        oid,
+      </if>
+      <if test="pid != null">
+        pid,
+      </if>
+      <if test="pname != null">
+        pname,
+      </if>
+      <if test="pimage != null">
+        pimage,
+      </if>
+      <if test="pprice != null">
+        pprice,
+      </if>
+      <if test="pnum != null">
+        pnum,
+      </if>
+      <if test="ptotalprice != null">
+        ptotalprice,
+      </if>
+      <if test="pcreatetime != null">
+        pcreatetime,
+      </if>
+      <if test="pmodifiedtime != null">
+        pmodifiedtime,
+      </if>
+      <if test="pcreateruser != null">
+        pcreateruser,
+      </if>
+      <if test="pmodifieduser != null">
+        pmodifieduser,
+      </if>
+      <if test="pstate != null">
+        pstate,
+      </if>
+      <if test="prest != null">
+        prest,
+      </if>
+      <if test="pcreateuserphone != null">
+        pcreateuserphone,
+      </if>
+      <if test="pmodifieduserphone != null">
+        pmodifieduserphone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="oid != null">
+        #{oid,jdbcType=INTEGER},
+      </if>
+      <if test="pid != null">
+        #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="pname != null">
+        #{pname,jdbcType=VARCHAR},
+      </if>
+      <if test="pimage != null">
+        #{pimage,jdbcType=VARCHAR},
+      </if>
+      <if test="pprice != null">
+        #{pprice,jdbcType=DOUBLE},
+      </if>
+      <if test="pnum != null">
+        #{pnum,jdbcType=INTEGER},
+      </if>
+      <if test="ptotalprice != null">
+        #{ptotalprice,jdbcType=DOUBLE},
+      </if>
+      <if test="pcreatetime != null">
+        #{pcreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pmodifiedtime != null">
+        #{pmodifiedtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pcreateruser != null">
+        #{pcreateruser,jdbcType=VARCHAR},
+      </if>
+      <if test="pmodifieduser != null">
+        #{pmodifieduser,jdbcType=VARCHAR},
+      </if>
+      <if test="pstate != null">
+        #{pstate,jdbcType=INTEGER},
+      </if>
+      <if test="prest != null">
+        #{prest,jdbcType=INTEGER},
+      </if>
+      <if test="pcreateuserphone != null">
+        #{pcreateuserphone,jdbcType=VARCHAR},
+      </if>
+      <if test="pmodifieduserphone != null">
+        #{pmodifieduserphone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.Lql.SRTP.entity.SrtpOrderItem">
+    <!--@mbg.generated-->
+    update srtp_order_item
+    <set>
+      <if test="oid != null">
+        oid = #{oid,jdbcType=INTEGER},
+      </if>
+      <if test="pid != null">
+        pid = #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="pname != null">
+        pname = #{pname,jdbcType=VARCHAR},
+      </if>
+      <if test="pimage != null">
+        pimage = #{pimage,jdbcType=VARCHAR},
+      </if>
+      <if test="pprice != null">
+        pprice = #{pprice,jdbcType=DOUBLE},
+      </if>
+      <if test="pnum != null">
+        pnum = #{pnum,jdbcType=INTEGER},
+      </if>
+      <if test="ptotalprice != null">
+        ptotalprice = #{ptotalprice,jdbcType=DOUBLE},
+      </if>
+      <if test="pcreatetime != null">
+        pcreatetime = #{pcreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pmodifiedtime != null">
+        pmodifiedtime = #{pmodifiedtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pcreateruser != null">
+        pcreateruser = #{pcreateruser,jdbcType=VARCHAR},
+      </if>
+      <if test="pmodifieduser != null">
+        pmodifieduser = #{pmodifieduser,jdbcType=VARCHAR},
+      </if>
+      <if test="pstate != null">
+        pstate = #{pstate,jdbcType=INTEGER},
+      </if>
+      <if test="prest != null">
+        prest = #{prest,jdbcType=INTEGER},
+      </if>
+      <if test="pcreateuserphone != null">
+        pcreateuserphone = #{pcreateuserphone,jdbcType=VARCHAR},
+      </if>
+      <if test="pmodifieduserphone != null">
+        pmodifieduserphone = #{pmodifieduserphone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.Lql.SRTP.entity.SrtpOrderItem">
+    <!--@mbg.generated-->
+    update srtp_order_item
+    set oid = #{oid,jdbcType=INTEGER},
+      pid = #{pid,jdbcType=INTEGER},
+      pname = #{pname,jdbcType=VARCHAR},
+      pimage = #{pimage,jdbcType=VARCHAR},
+      pprice = #{pprice,jdbcType=DOUBLE},
+      pnum = #{pnum,jdbcType=INTEGER},
+      ptotalprice = #{ptotalprice,jdbcType=DOUBLE},
+      pcreatetime = #{pcreatetime,jdbcType=TIMESTAMP},
+      pmodifiedtime = #{pmodifiedtime,jdbcType=TIMESTAMP},
+      pcreateruser = #{pcreateruser,jdbcType=VARCHAR},
+      pmodifieduser = #{pmodifieduser,jdbcType=VARCHAR},
+      pstate = #{pstate,jdbcType=INTEGER},
+      prest = #{prest,jdbcType=INTEGER},
+      pcreateuserphone = #{pcreateuserphone,jdbcType=VARCHAR},
+      pmodifieduserphone = #{pmodifieduserphone,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="getSumByDays" resultType="java.lang.Integer">
+    select IF(sum(pnum) is null, 0, sum(pnum)) as psum from srtp_order_item
+    where IF(#{type,jdbcType=INTEGER} = 3, `pstate` is not null, `pstate` = #{type,jdbcType=INTEGER})
+    and pcreatetime <![CDATA[<=]]> now()
+    and pcreatetime <![CDATA[>=]]> date_sub(now(), interval #{days,jdbcType=INTEGER} day)
+  </select>
+
+  <select id="getSumListRecentDays" resultType="java.lang.Integer">
+    select date_format(pcreatetime, '%Y%m%d') gmt_create, sum(pnum)  from srtp_order_item
+    where pstate = #{type,jdbcType=INTEGER}
+    and pcreatetime <![CDATA[<=]]> now()
+    and pcreatetime <![CDATA[>=]]> date_sub(now(), interval #{days,jdbcType=INTEGER} day)
+    group by gmt_create
+    having gmt_create is not null
+  </select>
+
+<!--auto generated by MybatisCodeHelper on 2022-11-27-->
+  <select id="selectByAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from srtp_order_item
+    <where>
+      <if test="id != null">
+        and id=#{id,jdbcType=INTEGER}
+      </if>
+      <if test="oid != null">
+        and oid=#{oid,jdbcType=INTEGER}
+      </if>
+      <if test="pid != null">
+        and pid=#{pid,jdbcType=INTEGER}
+      </if>
+      <if test="pname != null">
+        and pname=#{pname,jdbcType=VARCHAR}
+      </if>
+      <if test="pimage != null">
+        and pimage=#{pimage,jdbcType=VARCHAR}
+      </if>
+      <if test="pprice != null">
+        and pprice=#{pprice,jdbcType=DOUBLE}
+      </if>
+      <if test="pnum != null">
+        and pnum=#{pnum,jdbcType=INTEGER}
+      </if>
+      <if test="ptotalprice != null">
+        and ptotalprice=#{ptotalprice,jdbcType=DOUBLE}
+      </if>
+      <if test="pcreatetime != null">
+        and pcreatetime=#{pcreatetime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="pmodifiedtime != null">
+        and pmodifiedtime=#{pmodifiedtime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="pcreateruser != null">
+        and pcreateruser=#{pcreateruser,jdbcType=VARCHAR}
+      </if>
+      <if test="pmodifieduser != null">
+        and pmodifieduser=#{pmodifieduser,jdbcType=VARCHAR}
+      </if>
+      <if test="pstate != null">
+        and pstate=#{pstate,jdbcType=INTEGER}
+      </if>
+      <if test="prest != null">
+        and prest=#{prest,jdbcType=INTEGER}
+      </if>
+      <if test="pcreateuserphone != null">
+        and pcreateuserphone=#{pcreateuserphone,jdbcType=VARCHAR}
+      </if>
+      <if test="pmodifieduserphone != null">
+        and pmodifieduserphone=#{pmodifieduserphone,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+
+
+</mapper>
