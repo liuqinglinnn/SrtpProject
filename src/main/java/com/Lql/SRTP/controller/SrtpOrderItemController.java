@@ -76,7 +76,7 @@ public class SrtpOrderItemController {
         }
     }
 
-    @GetMapping
+    @GetMapping("/listOrderItemInOutSum")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "productId", value = "商品ID"),
             @ApiImplicitParam(name = "startTime", value = "开始时间"),
