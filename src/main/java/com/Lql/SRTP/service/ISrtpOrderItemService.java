@@ -1,8 +1,10 @@
 package com.Lql.SRTP.service;
 
 import com.Lql.SRTP.entity.SrtpOrderItem;
+import com.Lql.SRTP.entity.vo.SrtpOrderItemInOutVo;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,4 +35,13 @@ public interface ISrtpOrderItemService {
      * @return
      */
     List<SrtpOrderItem> listOrderItemsByProductId(Integer productId);
+
+    /**
+     * 获取商品出入库数量（规定时间范围内）
+     * @param id
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    List<SrtpOrderItemInOutVo> listOrderItemsInOutSum(Long id, Date startTime, Date endTime);
 }

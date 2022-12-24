@@ -2,6 +2,7 @@ package com.Lql.SRTP.dao;
 import java.util.Date;
 
 import com.Lql.SRTP.entity.SrtpOrderItem;
+import com.Lql.SRTP.entity.vo.SrtpOrderItemInOutVo;
 import org.apache.ibatis.annotations.Mapper;import org.apache.ibatis.annotations.Param;import java.util.List;
 
 @Mapper
@@ -26,5 +27,7 @@ public interface SrtpOrderItemMapper {
 
     List<SrtpOrderItem> selectByAll(SrtpOrderItem srtpOrderItem);
 
-
+    List<SrtpOrderItemInOutVo> selectInOutItemsByTimestamp(@Param("id") Long id,
+                                                           @Param("startTime") Date startTime,
+                                                           @Param("endTime") Date endTime);
 }

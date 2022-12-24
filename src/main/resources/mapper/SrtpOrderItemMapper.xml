@@ -297,5 +297,24 @@
     </where>
   </select>
 
-
+  <select id="selectInOutItemsByTimestamp" resultType="com.Lql.SRTP.entity.vo.SrtpOrderItemInOutVo">
+    select s1.pid pid, sum(pnum) ins, outs from srtp_order_item as s1
+    left join (
+        select pid, sum(pnum) outs from srtp_order_item
+        where pstate = 1
+        and pcreatetime <![CDATA[>=]]> #{startTime,jdbcType=TIMESTAMP}
+        and pcreatetime <![CDATA[<=]]> #{endTime,jdbcType=TIMESTAMP}
+        <if test="id != null">
+          and pid = #{id,jdbcType=BIGINT}
+        </if>
+    group by pid) as s2
+    on s1.pid = s2.pid
+    where pstate = 2
+    and pcreatetime <![CDATA[>=]]> #{startTime,jdbcType=TIMESTAMP}
+    and pcreatetime <![CDATA[<=]]> #{endTime,jdbcType=TIMESTAMP}
+    <if test="id != null">
+      and pid = #{id,jdbcType=BIGINT}
+    </if>
+    group by pid
+  </select>
 </mapper>

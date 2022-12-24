@@ -1,6 +1,7 @@
 package com.Lql.SRTP.controller;
 
 import com.Lql.SRTP.entity.SrtpOrderItem;
+import com.Lql.SRTP.entity.vo.SrtpOrderItemInOutVo;
 import com.Lql.SRTP.service.ISrtpOrderItemService;
 import com.Lql.SRTP.util.JsonResult;
 import io.swagger.annotations.Api;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -70,6 +72,26 @@ public class SrtpOrderItemController {
             return JsonResult.success(orderItems);
         } catch (Exception e) {
             log.error("SrtpOrderItemController.listOrderItemsByProductId发生异常: ", e);
+            return JsonResult.failure(e.getMessage());
+        }
+    }
+
+    @GetMapping("/listOrderItemInOutSum")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "productId", value = "商品ID"),
+            @ApiImplicitParam(name = "startTime", value = "开始时间"),
+            @ApiImplicitParam(name = "endTime", value = "结束时间")
+    })
+    @ApiOperation("根据时间范围获取商品出入库数据")
+    public JsonResult<Object> listOrderItemInOutSum(@RequestParam Long productId,
+                                                    @RequestParam Date startTime,
+                                                    @RequestParam Date endTime) {
+        try {
+            List<SrtpOrderItemInOutVo> orderItems =
+                    orderItemService.listOrderItemsInOutSum(productId, startTime, endTime);
+            return JsonResult.success(orderItems);
+        } catch (Exception e) {
+            log.error("SrtpOrderItemController.listOrderItemInOutSum发生异常: ", e);
             return JsonResult.failure(e.getMessage());
         }
     }

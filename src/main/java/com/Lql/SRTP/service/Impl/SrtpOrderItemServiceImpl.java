@@ -2,11 +2,13 @@ package com.Lql.SRTP.service.Impl;
 
 import com.Lql.SRTP.dao.SrtpOrderItemMapper;
 import com.Lql.SRTP.entity.SrtpOrderItem;
+import com.Lql.SRTP.entity.vo.SrtpOrderItemInOutVo;
 import com.Lql.SRTP.enums.OrderItemTypeEnum;
 import com.Lql.SRTP.service.ISrtpOrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service("SrtpOrderItemService")
@@ -39,10 +41,16 @@ public class SrtpOrderItemServiceImpl implements ISrtpOrderItemService {
         return orderItemMapper.selectByAll(SrtpOrderItem.builder().pid(productId).build());
     }
 
+    @Override
+    public List<SrtpOrderItemInOutVo> listOrderItemsInOutSum(Long id, Date startTime, Date endTime) {
+        return orderItemMapper.selectInOutItemsByTimestamp(id, startTime, endTime);
+    }
+
     private OrderItemTypeEnum checkType(Integer type) {
         if (!OrderItemTypeEnum.checkTypeValid(type)) {
             throw new RuntimeException("出入库参数有误，请重新输入");
         }
         return OrderItemTypeEnum.getItemTypeFromCode(type);
     }
+
 }
